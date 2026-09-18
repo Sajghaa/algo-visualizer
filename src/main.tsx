@@ -1,10 +1,6 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { bubbleSort } from './algorithms/sorting/bubbleSort';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const steps = bubbleSort.generateSteps([5, 2, 8, 1, 9]);
+console.log('Total steps:', steps.length);
+console.log('First step:', steps[0]);
+console.log('Last step:', steps[steps.length - 1]);
