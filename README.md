@@ -2,8 +2,14 @@
 
 > Interactive platform to **visualize**, **learn**, and **master** algorithms.
 
+## Bubble Sort
 ![Bubble Sort Visualizer](./docs/screenshot-bubble-sort.png)
-![Bubble Sort Visualizer](./docs/screenshot-merge-sort.png)
+
+## Merge Sort
+![Merge Sort Visualizer](./docs/screenshot-merge-sort.png)
+
+## Quick Sort
+![Merge Sort Visualizer](./docs/screenshot-quick-sort.png)
 
 
 ## 🎯 Why?
