@@ -4,13 +4,14 @@ import { Controls } from './components/Controls';
 import { bubbleSort } from './algorithms/sorting/bubbleSort';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
+import { mergeSort } from './algorithms/sorting/mergeSort';
 
 function App() {
   const [arraySize, setArraySize] = useState(15);
   const [inputArray, setInputArray] = useState(() => generateArray(arraySize));
-  const algorithm = bubbleSort;
+  const algorithm = mergeSort;
+  
 
-  // Regenerate steps whenever array or algorithm changes
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
     [algorithm, inputArray]
@@ -31,7 +32,7 @@ function App() {
       </h1>
 
       <div className="mx-auto max-w-5xl space-y-4">
-        {/* Algorithm info card */}
+  
         <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
