@@ -11,7 +11,11 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
   const getBarColor = (index: number): string => {
     if (sorted.includes(index)) return 'bg-green-500';
     if (highlighted.includes(index)) {
-      return concept === 'swap' ? 'bg-red-500' : 'bg-yellow-400';
+      if (concept === 'swap') return 'bg-red-500';
+      if (concept === 'merge') return 'bg-purple-500';
+      if (concept === 'divide') return 'bg-blue-500';
+      if (concept === 'pivot') return 'bg-pink-500';
+      return 'bg-yellow-400';
     }
     return 'bg-indigo-500';
   };
@@ -26,7 +30,7 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
             key={index}
             className="relative flex h-full flex-1 flex-col justify-end"
           >
-            {/* Pointer labels (i, j, etc.) above the bar */}
+
             {pointers &&
               Object.entries(pointers).some(([, idx]) => idx === index) && (
                 <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-white">
@@ -37,7 +41,6 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
                 </div>
               )}
 
-            {/* The bar itself */}
             <div
               className={`w-full rounded-t transition-all duration-150 ${getBarColor(index)}`}
               style={{ height: `${heightPercent}%` }}
