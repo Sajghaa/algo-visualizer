@@ -6,7 +6,7 @@ export interface AlgorithmStep {
     pointers?: Record<string, number>;
     description: string;
     explanation: string;
-    concept?: 'compare' | 'swap' | 'done' | 'mark';
+    concept?: 'compare' | 'swap' | 'done' | 'mark' | 'divide' | 'merge' | 'pivot';
     lineOfCode?: number;
 }
 
