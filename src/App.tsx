@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
 import { ArrayVisualizer } from './components/ArrayVisualizer';
 import { Controls } from './components/Controls';
-import { bubbleSort } from './algorithms/sorting/bubbleSort';
+import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
-import { mergeSort } from './algorithms/sorting/mergeSort';
 
 function App() {
   const [arraySize, setArraySize] = useState(15);
   const [inputArray, setInputArray] = useState(() => generateArray(arraySize));
-  const algorithm = mergeSort;
-  
+  const [algorithmIndex, setAlgorithmIndex] = useState(0);
+
+  const algorithm = sortingAlgorithms[algorithmIndex];
 
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
@@ -27,12 +27,31 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-900 p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold text-white">
-        Algo Visualizer
-      </h1>
+   
+      <div className="mx-auto mb-6 flex max-w-5xl flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-bold text-white">Algo Visualizer</h1>
+
+        <div>
+          <label htmlFor="algorithm" className="mr-2 text-sm text-gray-400">
+            Algorithm:
+          </label>
+          <select
+            id="algorithm"
+            value={algorithmIndex}
+            onChange={(e) => setAlgorithmIndex(Number(e.target.value))}
+            className="rounded-md border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            {sortingAlgorithms.map((algo, index) => (
+              <option key={algo.name} value={index}>
+                {algo.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       <div className="mx-auto max-w-5xl space-y-4">
-  
+     
         <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -52,11 +71,11 @@ function App() {
           </div>
         </div>
 
-        {/* Visualizer */}
+   
         <div className="rounded-lg bg-slate-800 p-6">
           <ArrayVisualizer step={visualizer.currentStep} maxValue={maxValue} />
 
-          {/* Description bar */}
+         
           <div className="mt-6 rounded-md bg-slate-900 p-3">
             <p className="text-center font-mono text-sm text-white">
               {visualizer.currentStep.description}
