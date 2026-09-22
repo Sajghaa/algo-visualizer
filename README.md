@@ -3,6 +3,8 @@
 > Interactive platform to **visualize**, **learn**, and **master** algorithms.
 
 ![Bubble Sort Visualizer](./docs/screenshot-bubble-sort.png)
+![Bubble Sort Visualizer](./docs/screenshot-merge-sort.png)
+
 
 ## 🎯 Why?
 
@@ -15,7 +17,7 @@ Algo Visualizer shows you *exactly* what happens at each step, with live explana
 - [x] Bubble Sort visualization with playback controls
 - [x] Step forward/back, speed control, array regeneration
 - [x] Live description and explanation per step
-- [ ] Merge Sort, Quick Sort, Heap Sort
+- [x] Merge Sort, Quick Sort, Heap Sort
 - [ ] Pseudocode panel synced with animation
 - [ ] "Learn" panel with key ideas and common mistakes
 - [ ] Interactive quizzes
