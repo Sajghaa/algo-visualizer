@@ -5,6 +5,7 @@ import { PseudocodePanel } from './components/PseudocodePanel';
 import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
+import { LearnPanel } from './components/LearnPanel';
 
 function App() {
   const [arraySize, setArraySize] = useState(15);
@@ -110,6 +111,9 @@ function App() {
             />
           </div>
         </div>
+
+        {/* Learn Panel */}
+        <LearnPanel algorithm={algorithm} />
 
         {/* Array controls */}
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
