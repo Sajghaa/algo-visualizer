@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ArrayVisualizer } from './components/ArrayVisualizer';
 import { Controls } from './components/Controls';
+import { PseudocodePanel } from './components/PseudocodePanel';
 import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
@@ -27,8 +28,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-900 p-6">
-   
-      <div className="mx-auto mb-6 flex max-w-5xl flex-wrap items-center justify-between gap-4">
+      {/* Header */}
+      <div className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-bold text-white">Algo Visualizer</h1>
 
         <div>
@@ -50,8 +51,8 @@ function App() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl space-y-4">
-     
+      <div className="mx-auto max-w-6xl space-y-4">
+        {/* Info card */}
         <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -71,31 +72,43 @@ function App() {
           </div>
         </div>
 
-   
-        <div className="rounded-lg bg-slate-800 p-6">
-          <ArrayVisualizer step={visualizer.currentStep} maxValue={maxValue} />
+        {/* Main grid: visualizer + pseudocode */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <div className="rounded-lg bg-slate-800 p-6 lg:col-span-2">
+            <ArrayVisualizer
+              step={visualizer.currentStep}
+              maxValue={maxValue}
+            />
 
-         
-          <div className="mt-6 rounded-md bg-slate-900 p-3">
-            <p className="text-center font-mono text-sm text-white">
-              {visualizer.currentStep.description}
-            </p>
-            <p className="mt-1 text-center text-xs text-gray-400">
-              {visualizer.currentStep.explanation}
-            </p>
+            {/* Description bar */}
+            <div className="mt-6 rounded-md bg-slate-900 p-3">
+              <p className="text-center font-mono text-sm text-white">
+                {visualizer.currentStep.description}
+              </p>
+              <p className="mt-1 text-center text-xs text-gray-400">
+                {visualizer.currentStep.explanation}
+              </p>
+            </div>
+
+            <Controls
+              isPlaying={visualizer.isPlaying}
+              speed={visualizer.speed}
+              currentIndex={visualizer.currentIndex}
+              totalSteps={visualizer.totalSteps}
+              onToggle={visualizer.toggle}
+              onStepForward={visualizer.stepForward}
+              onStepBack={visualizer.stepBack}
+              onReset={visualizer.reset}
+              onSpeedChange={visualizer.setSpeed}
+            />
           </div>
 
-          <Controls
-            isPlaying={visualizer.isPlaying}
-            speed={visualizer.speed}
-            currentIndex={visualizer.currentIndex}
-            totalSteps={visualizer.totalSteps}
-            onToggle={visualizer.toggle}
-            onStepForward={visualizer.stepForward}
-            onStepBack={visualizer.stepBack}
-            onReset={visualizer.reset}
-            onSpeedChange={visualizer.setSpeed}
-          />
+          <div className="lg:col-span-1">
+            <PseudocodePanel
+              pseudocode={algorithm.pseudocode}
+              activeLine={visualizer.currentStep.lineOfCode}
+            />
+          </div>
         </div>
 
         {/* Array controls */}
