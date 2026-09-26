@@ -17,6 +17,7 @@ export interface AlgorithmInfo {
     description: string;
     timeComplexity: string;
     spaceComplexity: string;
+    stable: boolean;
     pseudocode: string[];
     keyIdeas: string[];
     whenToUse: string;
