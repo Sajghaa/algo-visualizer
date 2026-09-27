@@ -1,10 +1,12 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const bubbleSort: SortingAlgorithm = {
+  slug: 'bubble-sort',
   name: 'Bubble Sort',
   description: 'Repeatedly swaps adjacent elements that are out of order.',
   timeComplexity: 'O(n²)',
   spaceComplexity: 'O(1)',
+  stable: true,
 
   keyIdeas: [
     'Compares adjacent elements and swaps them if out of order',
