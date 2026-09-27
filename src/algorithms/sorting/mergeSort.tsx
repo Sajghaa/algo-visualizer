@@ -1,10 +1,12 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const mergeSort: SortingAlgorithm = {
+  slug: 'bubble-sort',
   name: 'Merge Sort',
   description: 'Recursively divides the array, sorts each half, then merges them back together.',
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(n)',
+  stable: true,
 
   keyIdeas: [
     'Divide and conquer: split, sort each half, merge',
