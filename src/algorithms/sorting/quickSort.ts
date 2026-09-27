@@ -1,10 +1,12 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const quickSort: SortingAlgorithm = {
+  slug: 'bubble-sort',
   name: 'Quick Sort',
   description: 'Picks a pivot, partitions the array around it, and recursively sorts each side.',
   timeComplexity: 'O(n log n) average, O(n²) worst',
   spaceComplexity: 'O(log n) — recursion stack',
+  stable: false,
 
   keyIdeas: [
     'Pick a pivot; partition so smaller elements are left, larger are right',
