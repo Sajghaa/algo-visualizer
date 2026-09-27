@@ -1,10 +1,12 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const heapSort: SortingAlgorithm = {
+  slug: 'bubble-sort',
   name: 'Heap Sort',
   description: 'Builds a max-heap from the array, then repeatedly extracts the maximum.',
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(1)',
+  stable: false,
 
   keyIdeas: [
     'The array is treated as a binary tree: children of i are 2i+1 and 2i+2',
