@@ -1,17 +1,31 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrayVisualizer } from './components/ArrayVisualizer';
 import { Controls } from './components/Controls';
 import { PseudocodePanel } from './components/PseudocodePanel';
+import { LearnPanel } from './components/LearnPanel';
+import { QuizPanel } from './components/QuizPanel';
 import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
-import { LearnPanel } from './components/LearnPanel';
-import { QuizPanel } from './components/QuizPanel';
+import { encodeState, decodeState } from './utils/urlState';
 
 function App() {
-  const [arraySize, setArraySize] = useState(15);
-  const [inputArray, setInputArray] = useState(() => generateArray(arraySize));
-  const [algorithmIndex, setAlgorithmIndex] = useState(0);
+
+  const initial = useMemo(
+    () => decodeState(window.location.search, sortingAlgorithms),
+    []
+  );
+
+  const [arraySize, setArraySize] = useState(initial?.array.length ?? 15);
+  const [inputArray, setInputArray] = useState(
+    () => initial?.array ?? generateArray(15)
+  );
+
+  const [algorithmIndex, setAlgorithmIndex] = useState(() => {
+      if (!initial) return 0;
+      const idx = sortingAlgorithms.findIndex((a) => a.slug === initial.slug);
+      return idx >= 0 ? idx : 0;
+    });
 
   const algorithm = sortingAlgorithms[algorithmIndex];
 
@@ -24,8 +38,18 @@ function App() {
 
   const visualizer = useVisualizer(steps);
 
+  useEffect(() => {
+    const query = encodeState({
+      slug: algorithm.slug,
+      array: inputArray,
+    });
+    const newUrl = `${window.location.pathname}?${query}`;
+    window.history.replaceState(null, '', newUrl);
+  }, [algorithm.slug, inputArray]);
+
   const handleNewArray = () => {
-    setInputArray(generateArray(arraySize));
+    const next = generateArray(arraySize);
+    setInputArray(next);
   };
 
   return (
