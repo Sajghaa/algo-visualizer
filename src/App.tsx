@@ -20,12 +20,11 @@ function App() {
   const [inputArray, setInputArray] = useState(
     () => initial?.array ?? generateArray(15)
   );
-
   const [algorithmIndex, setAlgorithmIndex] = useState(() => {
-      if (!initial) return 0;
-      const idx = sortingAlgorithms.findIndex((a) => a.slug === initial.slug);
-      return idx >= 0 ? idx : 0;
-    });
+    if (!initial) return 0;
+    const idx = sortingAlgorithms.findIndex((a) => a.slug === initial.slug);
+    return idx >= 0 ? idx : 0;
+  });
 
   const algorithm = sortingAlgorithms[algorithmIndex];
 
@@ -48,8 +47,7 @@ function App() {
   }, [algorithm.slug, inputArray]);
 
   const handleNewArray = () => {
-    const next = generateArray(arraySize);
-    setInputArray(next);
+    setInputArray(generateArray(arraySize));
   };
 
   return (
@@ -94,6 +92,9 @@ function App() {
               <span className="rounded bg-slate-700 px-2 py-1">
                 💾 {algorithm.spaceComplexity}
               </span>
+              <span className="rounded bg-slate-700 px-2 py-1">
+                {algorithm.stable ? '✅ Stable' : '❌ Not stable'}
+              </span>
             </div>
           </div>
         </div>
@@ -106,7 +107,6 @@ function App() {
               maxValue={maxValue}
             />
 
-            {/* Description bar */}
             <div className="mt-6 rounded-md bg-slate-900 p-3">
               <p className="text-center font-mono text-sm text-white">
                 {visualizer.currentStep.description}
@@ -140,7 +140,8 @@ function App() {
         {/* Learn Panel */}
         <LearnPanel algorithm={algorithm} />
 
-         <QuizPanel algorithm={algorithm} allAlgorithms={sortingAlgorithms} />
+        {/* Quiz Panel */}
+        <QuizPanel algorithm={algorithm} allAlgorithms={sortingAlgorithms} />
 
         {/* Array controls */}
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
