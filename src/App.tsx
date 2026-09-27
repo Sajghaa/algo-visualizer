@@ -6,6 +6,7 @@ import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
 import { LearnPanel } from './components/LearnPanel';
+import { QuizPanel } from './components/QuizPanel';
 
 function App() {
   const [arraySize, setArraySize] = useState(15);
@@ -114,6 +115,8 @@ function App() {
 
         {/* Learn Panel */}
         <LearnPanel algorithm={algorithm} />
+
+         <QuizPanel algorithm={algorithm} allAlgorithms={sortingAlgorithms} />
 
         {/* Array controls */}
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
