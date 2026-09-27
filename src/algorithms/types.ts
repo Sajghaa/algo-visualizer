@@ -13,6 +13,7 @@ export interface AlgorithmStep {
 
 export interface AlgorithmInfo {
 
+    slug: string;
     name: string;
     description: string;
     timeComplexity: string;
