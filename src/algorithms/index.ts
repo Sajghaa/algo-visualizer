@@ -11,4 +11,13 @@ export const sortingAlgorithms: SortingAlgorithm[] = [
   heapSort,
 ];
 
+
+if (import.meta.env.DEV) {
+  const slugs = sortingAlgorithms.map((a) => a.slug);
+  const unique = new Set(slugs);
+  if (unique.size !== slugs.length) {
+    console.error('Duplicate algorithm slugs detected:', slugs);
+  }
+}
+
 export type { AlgorithmStep, SortingAlgorithm, AlgorithmInfo } from './types';
