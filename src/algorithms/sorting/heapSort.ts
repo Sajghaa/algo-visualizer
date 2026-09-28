@@ -1,7 +1,7 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const heapSort: SortingAlgorithm = {
-  slug: 'bubble-sort',
+  slug: 'heap-sort',
   name: 'Heap Sort',
   description: 'Builds a max-heap from the array, then repeatedly extracts the maximum.',
   timeComplexity: 'O(n log n)',
