@@ -8,6 +8,7 @@ import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
 import { encodeState, decodeState } from './utils/urlState';
+import { useProgress } from './progress/useProgress';
 
 function App() {
 
@@ -27,7 +28,9 @@ function App() {
   });
 
   const algorithm = sortingAlgorithms[algorithmIndex];
-
+  const { progress, recordQuizAttempt, recordPlay } = useProgress();
+  console.log('progress:', progress);
+  
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
     [algorithm, inputArray]
@@ -163,6 +166,8 @@ function App() {
           >
             🎲 New Array
           </button>
+          <button onClick={() => recordQuizAttempt('bubble-sort', 4, 5)}>Fake quiz</button>
+<button onClick={() => recordPlay('merge-sort')}>Fake play</button>
         </div>
       </div>
     </div>
