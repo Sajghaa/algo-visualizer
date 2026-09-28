@@ -28,8 +28,8 @@ function App() {
   });
 
   const algorithm = sortingAlgorithms[algorithmIndex];
-  const { progress, recordQuizAttempt, recordPlay } = useProgress();
-  console.log('progress:', progress);
+  const { recordQuizAttempt } = useProgress();
+
   
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
@@ -144,7 +144,11 @@ function App() {
         <LearnPanel algorithm={algorithm} />
 
         {/* Quiz Panel */}
-        <QuizPanel algorithm={algorithm} allAlgorithms={sortingAlgorithms} />
+        <QuizPanel 
+          algorithm={algorithm} 
+          allAlgorithms={sortingAlgorithms} 
+          onComplete={(score, total) => recordQuizAttempt(algorithm.slug, score, total)}
+          />
 
         {/* Array controls */}
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
@@ -166,8 +170,7 @@ function App() {
           >
             🎲 New Array
           </button>
-          <button onClick={() => recordQuizAttempt('bubble-sort', 4, 5)}>Fake quiz</button>
-<button onClick={() => recordPlay('merge-sort')}>Fake play</button>
+
         </div>
       </div>
     </div>
