@@ -1,7 +1,7 @@
 import type { AlgorithmStep, SortingAlgorithm } from '../types';
 
 export const mergeSort: SortingAlgorithm = {
-  slug: 'bubble-sort',
+  slug: 'merge-sort',
   name: 'Merge Sort',
   description: 'Recursively divides the array, sorts each half, then merges them back together.',
   timeComplexity: 'O(n log n)',
