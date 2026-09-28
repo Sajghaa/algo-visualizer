@@ -5,9 +5,10 @@ import type { AlgorithmInfo } from '../algorithms/types';
 interface QuizPanelProps {
   algorithm: AlgorithmInfo;
   allAlgorithms: AlgorithmInfo[];
+  onComplete: (score: number, total: number) => void;
 }
 
-export function QuizPanel({ algorithm, allAlgorithms }: QuizPanelProps) {
+export function QuizPanel({ algorithm, allAlgorithms, onComplete }: QuizPanelProps) {
   const [attempt, setAttempt] = useState(0);
   const questions = useMemo(
     () => generateQuiz(algorithm, allAlgorithms),
@@ -30,6 +31,7 @@ export function QuizPanel({ algorithm, allAlgorithms }: QuizPanelProps) {
   const handleNext = () => {
     if (currentIndex === questions.length - 1) {
       setFinished(true);
+      onComplete(score, questions.length);
     } else {
       setCurrentIndex((i) => i + 1);
       setSelected(null);
