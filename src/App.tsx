@@ -38,7 +38,6 @@ function App() {
   const visualizer = useVisualizer(steps);
 
   useEffect(() => {
-    console.log('URL effect fired:', algorithm.slug, '| arr length:', inputArray.length);
     const query = encodeState({
       slug: algorithm.slug,
       array: inputArray,
