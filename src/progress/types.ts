@@ -2,6 +2,7 @@ export interface AlgorithmProgress {
     slug: string;
     quizAttempts: number;
     bestScore: number;
+    latestScore?: number;
     lastAttempted?: string;
     timesPlayed: number;
 }
