@@ -33,6 +33,13 @@ export function ProgressStats({ progress }: ProgressStatsProps) {
         </span>
       )}
 
+      {progress.latestScore !== undefined && (
+        <span className="flex items-center gap-1.5 text-gray-300">
+          <span aria-hidden>📝</span>
+          <span>{progress.latestScore}% latest</span>
+        </span>
+      )}
+
       {hasPlayed && (
         <span className="flex items-center gap-1.5 text-gray-300">
           <span aria-hidden>▶</span>
