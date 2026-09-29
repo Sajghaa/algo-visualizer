@@ -9,6 +9,7 @@ import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
 import { encodeState, decodeState } from './utils/urlState';
 import { useProgress } from './progress/useProgress';
+import { ProgressStats } from './components/ProgressStats';
 
 function App() {
 
@@ -28,8 +29,15 @@ function App() {
   });
 
   const algorithm = sortingAlgorithms[algorithmIndex];
-  const { recordQuizAttempt } = useProgress();
+  const { progress, recordQuizAttempt } = useProgress();
 
+  const algorithmProgress = progress.algorithms[algorithm.slug] ?? {
+    slug: algorithm.slug,
+    quizAttempts: 0,
+    bestScore: 0,
+    timesPlayed: 0,
+  }
+  console.log('progress.algorithms[bubble-sort]:', progress.algorithms['bubble-sort']);
   
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
@@ -99,6 +107,10 @@ function App() {
                 {algorithm.stable ? '✅ Stable' : '❌ Not stable'}
               </span>
             </div>
+          </div>
+
+          <div className="mt-3 border-t border-slate-700 pt-3">
+            <ProgressStats progress={algorithmProgress}/>
           </div>
         </div>
 
