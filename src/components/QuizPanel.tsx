@@ -23,7 +23,7 @@ export function QuizPanel({ algorithm, allAlgorithms, onComplete }: QuizPanelPro
   const question = questions[currentIndex];
 
   const handleSelect = (index: number) => {
-    if (selected !== null) return; // already answered
+    if (selected !== null) return; 
     setSelected(index);
     if (index === question.correctIndex) setScore((s) => s + 1);
   };
