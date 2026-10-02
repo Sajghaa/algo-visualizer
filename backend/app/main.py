@@ -2,8 +2,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app import models  
+from app import models  # noqa: F401 — registers SQLModel models
 from app.database import create_db_and_tables
+from app.routers import progress
 
 
 @asynccontextmanager
@@ -25,6 +26,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(progress.router)
 
 
 @app.get("/")
