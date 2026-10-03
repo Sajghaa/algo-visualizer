@@ -2,57 +2,48 @@ import { useCallback, useState, useEffect } from 'react';
 import type { UserProgress, AlgorithmProgress} from './types';
 import { createEmptyAlgorithmProgress, createEmptyProgress } from './types';
 import { loadProgress, saveProgress, clearProgress } from './storage';
-import { fetchProgress, submitQuiz } from '../api/progressApi';
+import { fetchAllProgress, submitQuiz } from '../api/progressApi';
 
 export function useProgress() {
   const [progress, setProgress] = useState<UserProgress>(() => loadProgress());
 
 
   useEffect(() => {
-    let cancelled = false;
+  let cancelled = false;
 
-    async function syncFromBackend() {
-      const slugs = Object.keys(progress.algorithms);
-      if (slugs.length === 0) return;
+  async function syncFromBackend() {
+    const remoteList = await fetchAllProgress();
+    if (cancelled) return;
+    if (remoteList.length === 0) return;
 
-      const results = await Promise.all(
-        slugs.map(async (slug) => ({
-          slug,
-          remote: await fetchProgress(slug),
-        }))
-      );
+    setProgress((prev) => {
+      let changed = false;
+      const merged = { ...prev.algorithms };
 
-      if (cancelled) return;
+      for (const remote of remoteList) {
+        const local = merged[remote.slug];
 
-      setProgress((prev) => {
-        let changed = false;
-        const merged = { ...prev.algorithms };
-
-        for (const { slug, remote } of results) {
-          if (!remote) continue;
-
-          const local = merged[slug];
-          // Backend wins if it has more attempts
-          if (!local || remote.quizAttempts > local.quizAttempts) {
-            merged[slug] = remote;
-            changed = true;
-          }
+        // Backend wins if it has more attempts (or if we have nothing for this slug)
+        if (!local || remote.quizAttempts > local.quizAttempts) {
+          merged[remote.slug] = remote;
+          changed = true;
         }
+      }
 
-        if (!changed) return prev;
+      if (!changed) return prev;
 
-        const updated = { ...prev, algorithms: merged };
-        saveProgress(updated);
-        return updated;
-      });
-    }
+      const updated = { ...prev, algorithms: merged };
+      saveProgress(updated);
+      return updated;
+    });
+  }
 
-    syncFromBackend();
-    return () => {
-      cancelled = true;
-    };
-
-  }, []);
+  syncFromBackend();
+  return () => {
+    cancelled = true;
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const getAlgorithmProgress = useCallback(
     (slug: string): AlgorithmProgress => {
