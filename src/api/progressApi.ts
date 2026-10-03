@@ -59,3 +59,16 @@ export async function submitQuiz(
     return null;
   }
 }
+
+
+export async function fetchAllProgress(): Promise<AlgorithmProgress[]> {
+  try {
+    const res = await fetch (`${API_BASE}/progress`);
+    if (!res.ok) return [];
+    const data: ProgressApiResponse[] = await res.json();
+    return data.map(toAlgorithmProgress);
+  } catch (error) {
+    console.warn('Failed to fetch all progress from backend:', error);
+    return [];
+  }
+}
