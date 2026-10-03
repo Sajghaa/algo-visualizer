@@ -32,6 +32,14 @@ def _empty_response(slug: str) -> ProgressResponse:
         last_attempted=None,
     )
 
+@router.get("", response_model=list[ProgressResponse])
+def list_progress(session: Session = Depends(get_session)):
+    statement = select(AlgorithmProgress).where(
+        AlgorithmProgress.user_id == DEFAULT_USER
+    )
+    records = session.exec(statement).all()
+    return [_to_response(r) for r in records]
+
 
 @router.get("/{slug}", response_model=ProgressResponse)
 def get_progress(slug: str, session: Session = Depends(get_session)):
