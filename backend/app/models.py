@@ -1,6 +1,24 @@
-from datetime import datetime
+import uuid
+from datetime import datetime, timezone
 from typing import Optional
 from sqlmodel import SQLModel, Field
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+class User(SQLModel, table=True):
+    __tablename__ = "users"
+
+    id: Optional[str] = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        primary_key=True,
+    )
+    email: str = Field(unique=True, index=True)
+    hashed_password: str
+    created_at: datetime =Field(default_factory=_utc_now)
+
+
 
 
 class AlgorithmProgress(SQLModel, table=True):
