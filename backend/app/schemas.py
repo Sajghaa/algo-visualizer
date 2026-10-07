@@ -56,7 +56,7 @@ class UserResponse(CamelModel):
 
     id: str
     email: str
-    create_at: datetime
+    created_at: datetime
 
 class AuthResponse(CamelModel):
 
