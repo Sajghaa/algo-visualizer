@@ -2,6 +2,10 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
+import re
+from pydantic import field_validator
+
+
 
 
 class CamelModel(BaseModel):
@@ -27,3 +31,35 @@ class ProgressResponse(CamelModel):
     latest_score: Optional[int] = None
     times_played: int
     last_attempted: Optional[datetime] = None
+
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+class RegisterRequest(BaseModel):
+
+    email: str
+    password: str = Field(min_length=8, max_length=72)
+
+    @field_validator("email")
+    @classmethod
+    def email_must_be_valid(cls, v: str) -> str:
+        v = v.strip().lower()
+        if not EMAIL_RE.match(v):
+            raise ValueError("invalid email format")
+        return v
+
+class LoginRequest(BaseModel):
+
+    email: str
+    password: str
+
+class UserResponse(CamelModel):
+
+    id: str
+    email: str
+    create_at: datetime
+
+class AuthResponse(CamelModel):
+
+    access_token: str
+    token_type: str = "bearer"
+    user: UserResponse
