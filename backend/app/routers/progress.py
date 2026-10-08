@@ -3,7 +3,8 @@ from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
 from app.database import get_session
-from app.models import AlgorithmProgress
+from app.dependencies import get_current_user
+from app.models import AlgorithmProgress, User
 from app.schemas import ProgressResponse, QuizSubmission
 
 router = APIRouter(prefix="/progress", tags=["progress"])
@@ -33,18 +34,24 @@ def _empty_response(slug: str) -> ProgressResponse:
     )
 
 @router.get("", response_model=list[ProgressResponse])
-def list_progress(session: Session = Depends(get_session)):
+def list_progress(
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
     statement = select(AlgorithmProgress).where(
-        AlgorithmProgress.user_id == DEFAULT_USER
+        AlgorithmProgress.user_id == current_user.id
     )
     records = session.exec(statement).all()
     return [_to_response(r) for r in records]
 
-
 @router.get("/{slug}", response_model=ProgressResponse)
-def get_progress(slug: str, session: Session = Depends(get_session)):
+def get_progress(
+    slug: str,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
     statement = select(AlgorithmProgress).where(
-        AlgorithmProgress.user_id == DEFAULT_USER,
+        AlgorithmProgress.user_id == current_user.id,
         AlgorithmProgress.algorithm_slug == slug,
     )
     record = session.exec(statement).first()
@@ -59,20 +66,21 @@ def get_progress(slug: str, session: Session = Depends(get_session)):
 def record_quiz(
     slug: str,
     submission: QuizSubmission,
+    current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
 ):
     percentage = round((submission.score / submission.total) * 100)
 
     # Find or create the row
     statement = select(AlgorithmProgress).where(
-        AlgorithmProgress.user_id == DEFAULT_USER,
+        AlgorithmProgress.user_id == current_user.id,
         AlgorithmProgress.algorithm_slug == slug,
     )
     record = session.exec(statement).first()
 
     if record is None:
         record = AlgorithmProgress(
-            user_id=DEFAULT_USER,
+            user_id=current_user.id,
             algorithm_slug=slug,
         )
 
