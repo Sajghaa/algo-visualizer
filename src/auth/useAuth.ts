@@ -1,5 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { login as apiLogin, register as apiRegister, setAuthToken } from '../api/progressApi';
+import { useCallback, useState } from 'react';
+import {
+  login as apiLogin,
+  register as apiRegister,
+  setAuthToken,
+} from '../api/progressApi';
 import type { AuthUser } from '../api/progressApi';
 
 const TOKEN_KEY = 'algovisualizer.token';
@@ -13,25 +17,26 @@ interface UseAuthReturn {
   logout: () => void;
 }
 
+function loadStoredUser(): AuthUser | null {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const rawUser = localStorage.getItem(USER_KEY);
+  if (!token || !rawUser) return null;
+
+  try {
+    const parsed: AuthUser = JSON.parse(rawUser);
+
+    setAuthToken(token);
+    return parsed;
+  } catch {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    return null;
+  }
+}
+
 export function useAuth(): UseAuthReturn {
-  const [user, setUser] = useState<AuthUser | null>(null);
-
   
-  useEffect(() => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    const rawUser = localStorage.getItem(USER_KEY);
-    if (!token || !rawUser) return;
-
-    try {
-      const parsed: AuthUser = JSON.parse(rawUser);
-      setAuthToken(token);
-      setUser(parsed);
-    } catch {
-      
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-    }
-  }, []);
+  const [user, setUser] = useState<AuthUser | null>(loadStoredUser);
 
   const persist = useCallback((token: string, u: AuthUser) => {
     localStorage.setItem(TOKEN_KEY, token);
