@@ -23,7 +23,7 @@ export function useProgress() {
       for (const remote of remoteList) {
         const local = merged[remote.slug];
 
-        // Backend wins if it has more attempts (or if we have nothing for this slug)
+       
         if (!local || remote.quizAttempts > local.quizAttempts) {
           merged[remote.slug] = remote;
           changed = true;
@@ -42,7 +42,7 @@ export function useProgress() {
   return () => {
     cancelled = true;
   };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
 }, []);
 
   const getAlgorithmProgress = useCallback(
