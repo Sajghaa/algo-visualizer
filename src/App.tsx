@@ -4,14 +4,17 @@ import { Controls } from './components/Controls';
 import { PseudocodePanel } from './components/PseudocodePanel';
 import { LearnPanel } from './components/LearnPanel';
 import { QuizPanel } from './components/QuizPanel';
+import { ProgressStats } from './components/ProgressStats';
+import { AuthForms } from './components/AuthForms';
 import { sortingAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
 import { encodeState, decodeState } from './utils/urlState';
 import { useProgress } from './progress/useProgress';
-import { ProgressStats } from './components/ProgressStats';
+import { useAuth } from './auth/useAuth';
 
 function App() {
+  const { user, isAuthenticated, logout } = useAuth();
 
   const initial = useMemo(
     () => decodeState(window.location.search, sortingAlgorithms),
@@ -36,9 +39,8 @@ function App() {
     quizAttempts: 0,
     bestScore: 0,
     timesPlayed: 0,
-  }
-  console.log('progress.algorithms[bubble-sort]:', progress.algorithms['bubble-sort']);
-  
+  };
+
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
     [algorithm, inputArray]
@@ -61,28 +63,60 @@ function App() {
     setInputArray(generateArray(arraySize));
   };
 
+  // Unauthenticated view — login/register only
+  if (!isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-900 p-6">
+        <div className="w-full max-w-md">
+          <h1 className="mb-6 text-center text-3xl font-bold text-white">
+            Algo Visualizer
+          </h1>
+          <AuthForms />
+          <p className="mt-4 text-center text-xs text-gray-500">
+            Sign in to save your progress across devices.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Authenticated view — full app
   return (
     <div className="min-h-screen bg-slate-900 p-6">
       {/* Header */}
       <div className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-bold text-white">Algo Visualizer</h1>
 
-        <div>
-          <label htmlFor="algorithm" className="mr-2 text-sm text-gray-400">
-            Algorithm:
-          </label>
-          <select
-            id="algorithm"
-            value={algorithmIndex}
-            onChange={(e) => setAlgorithmIndex(Number(e.target.value))}
-            className="rounded-md border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            {sortingAlgorithms.map((algo, index) => (
-              <option key={algo.name} value={index}>
-                {algo.name}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-wrap items-center gap-4">
+          <div>
+            <label htmlFor="algorithm" className="mr-2 text-sm text-gray-400">
+              Algorithm:
+            </label>
+            <select
+              id="algorithm"
+              value={algorithmIndex}
+              onChange={(e) => setAlgorithmIndex(Number(e.target.value))}
+              className="rounded-md border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {sortingAlgorithms.map((algo, index) => (
+                <option key={algo.name} value={index}>
+                  {algo.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex items-center gap-3 text-sm">
+            <span className="hidden text-gray-400 sm:inline">
+              {user?.email}
+            </span>
+            <button
+              onClick={logout}
+              className="rounded-md border border-slate-600 px-3 py-1.5 text-xs text-gray-300 transition hover:border-red-500 hover:text-red-400"
+            >
+              Log Out
+            </button>
+          </div>
         </div>
       </div>
 
@@ -110,7 +144,7 @@ function App() {
           </div>
 
           <div className="mt-3 border-t border-slate-700 pt-3">
-            <ProgressStats progress={algorithmProgress}/>
+            <ProgressStats progress={algorithmProgress} />
           </div>
         </div>
 
@@ -156,11 +190,13 @@ function App() {
         <LearnPanel algorithm={algorithm} />
 
         {/* Quiz Panel */}
-        <QuizPanel 
-          algorithm={algorithm} 
-          allAlgorithms={sortingAlgorithms} 
-          onComplete={(score, total) => recordQuizAttempt(algorithm.slug, score, total)}
-          />
+        <QuizPanel
+          algorithm={algorithm}
+          allAlgorithms={sortingAlgorithms}
+          onComplete={(score, total) =>
+            recordQuizAttempt(algorithm.slug, score, total)
+          }
+        />
 
         {/* Array controls */}
         <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
@@ -182,7 +218,6 @@ function App() {
           >
             🎲 New Array
           </button>
-
         </div>
       </div>
     </div>
