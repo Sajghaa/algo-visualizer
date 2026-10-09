@@ -5,6 +5,7 @@ import {
   setAuthToken,
 } from '../api/progressApi';
 import type { AuthUser } from '../api/progressApi';
+import { clearProgress } from '../progress/storage';
 
 const TOKEN_KEY = 'algovisualizer.token';
 const USER_KEY = 'algovisualizer.user';
@@ -48,6 +49,7 @@ export function useAuth(): UseAuthReturn {
   const login = useCallback(
     async (email: string, password: string) => {
       const res = await apiLogin(email, password);
+      clearProgress();
       persist(res.accessToken, res.user);
       window.location.reload();
     },
@@ -57,6 +59,7 @@ export function useAuth(): UseAuthReturn {
   const register = useCallback(
     async (email: string, password: string) => {
       const res = await apiRegister(email, password);
+      clearProgress();
       persist(res.accessToken, res.user);
       window.location.reload();
     },
@@ -64,6 +67,7 @@ export function useAuth(): UseAuthReturn {
   );
 
   const logout = useCallback(() => {
+    clearProgress();
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     setAuthToken(null);
