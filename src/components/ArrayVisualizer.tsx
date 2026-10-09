@@ -6,7 +6,7 @@ interface ArrayVisualizerProps {
 }
 
 export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
-  const { array, highlighted, sorted, pointers, concept } = step;
+  const { array, highlighted, sorted, pointers, concept, target } = step;
 
   const getBarColor = (index: number): string => {
     if (sorted.includes(index)) return 'bg-green-500';
@@ -21,33 +21,44 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
   };
 
   return (
-    <div className="relative flex h-96 w-full items-end justify-center gap-1 px-4">
-      {array.map((value, index) => {
-        const heightPercent = (value / maxValue) * 100;
-
-        return (
-          <div
-            key={index}
-            className="relative flex h-full flex-1 flex-col justify-end"
-          >
-
-            {pointers &&
-              Object.entries(pointers).some(([, idx]) => idx === index) && (
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-white">
-                  {Object.entries(pointers)
-                    .filter(([, idx]) => idx === index)
-                    .map(([name]) => name)
-                    .join(', ')}
-                </div>
-              )}
-
-            <div
-              className={`w-full rounded-t transition-all duration-150 ${getBarColor(index)}`}
-              style={{ height: `${heightPercent}%` }}
-            />
+    <div className="relative flex h-96 w-full flex-col gap-2 px-4">
+      {/* Target badge — only visible for searching algorithms */}
+      {target !== undefined && (
+        <div className="flex justify-center">
+          <div className="rounded-full bg-indigo-500 px-4 py-1 font-mono text-xs text-white">
+            🎯 Target: {target}
           </div>
-        );
-      })}
+        </div>
+      )}
+
+      {/* Bar container */}
+      <div className="relative flex flex-1 items-end justify-center gap-1">
+        {array.map((value, index) => {
+          const heightPercent = (value / maxValue) * 100;
+
+          return (
+            <div
+              key={index}
+              className="relative flex h-full flex-1 flex-col justify-end"
+            >
+              {pointers &&
+                Object.entries(pointers).some(([, idx]) => idx === index) && (
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-xs text-white">
+                    {Object.entries(pointers)
+                      .filter(([, idx]) => idx === index)
+                      .map(([name]) => name)
+                      .join(', ')}
+                  </div>
+                )}
+
+              <div
+                className={`w-full rounded-t transition-all duration-150 ${getBarColor(index)}`}
+                style={{ height: `${heightPercent}%` }}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
