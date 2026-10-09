@@ -6,8 +6,9 @@ export interface AlgorithmStep {
     pointers?: Record<string, number>;
     description: string;
     explanation: string;
-    concept?: 'compare' | 'swap' | 'done' | 'mark' | 'divide' | 'merge' | 'pivot';
+    concept?: 'compare' | 'swap' | 'done' | 'mark' | 'divide' | 'merge' | 'pivot'|'eliminated';
     lineOfCode?: number;
+    target?: number;
 }
 
 
@@ -22,9 +23,10 @@ export interface AlgorithmInfo {
     pseudocode: string[];
     keyIdeas: string[];
     whenToUse: string;
+    category?: 'sorting' | 'searching';
 }
 
 
 export interface SortingAlgorithm extends AlgorithmInfo {
-    generateSteps(input: number[]) : AlgorithmStep[];
+    generateSteps(input: number[], target?: number) : AlgorithmStep[];
 }
