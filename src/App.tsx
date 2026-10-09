@@ -6,7 +6,7 @@ import { LearnPanel } from './components/LearnPanel';
 import { QuizPanel } from './components/QuizPanel';
 import { ProgressStats } from './components/ProgressStats';
 import { AuthForms } from './components/AuthForms';
-import { sortingAlgorithms } from './algorithms';
+import { allAlgorithms } from './algorithms';
 import { generateArray } from './utils/generateArray';
 import { useVisualizer } from './hooks/useVisualizer';
 import { encodeState, decodeState } from './utils/urlState';
@@ -17,7 +17,7 @@ function App() {
   const { user, isAuthenticated, logout } = useAuth();
 
   const initial = useMemo(
-    () => decodeState(window.location.search, sortingAlgorithms),
+    () => decodeState(window.location.search, allAlgorithms),
     []
   );
 
@@ -27,11 +27,22 @@ function App() {
   );
   const [algorithmIndex, setAlgorithmIndex] = useState(() => {
     if (!initial) return 0;
-    const idx = sortingAlgorithms.findIndex((a) => a.slug === initial.slug);
+    const idx = allAlgorithms.findIndex((a) => a.slug === initial.slug);
     return idx >= 0 ? idx : 0;
   });
 
-  const algorithm = sortingAlgorithms[algorithmIndex];
+  const algorithm = allAlgorithms[algorithmIndex];
+
+  const target = useMemo(() => {
+    if (algorithm.category !== 'searching') return undefined;
+    return inputArray[Math.floor(Math.random() * inputArray.length)];
+  }, [algorithm, inputArray]);
+
+  const steps = useMemo(
+    () => algorithm.generateSteps(inputArray, target),
+    [algorithm, inputArray, target]
+  );
+
   const { progress, recordQuizAttempt } = useProgress();
 
   const algorithmProgress = progress.algorithms[algorithm.slug] ?? {
@@ -40,11 +51,6 @@ function App() {
     bestScore: 0,
     timesPlayed: 0,
   };
-
-  const steps = useMemo(
-    () => algorithm.generateSteps(inputArray),
-    [algorithm, inputArray]
-  );
 
   const maxValue = useMemo(() => Math.max(...inputArray), [inputArray]);
 
@@ -98,7 +104,7 @@ function App() {
               onChange={(e) => setAlgorithmIndex(Number(e.target.value))}
               className="rounded-md border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              {sortingAlgorithms.map((algo, index) => (
+              {allAlgorithms.map((algo, index) => (
                 <option key={algo.name} value={index}>
                   {algo.name}
                 </option>
@@ -192,7 +198,7 @@ function App() {
         {/* Quiz Panel */}
         <QuizPanel
           algorithm={algorithm}
-          allAlgorithms={sortingAlgorithms}
+          allAlgorithms={allAlgorithms}
           onComplete={(score, total) =>
             recordQuizAttempt(algorithm.slug, score, total)
           }
