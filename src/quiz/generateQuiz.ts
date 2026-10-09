@@ -84,6 +84,7 @@ export function generateQuiz(
   );
 
   // Q3: Stability
+  if (current.category !== 'searching') {
   const stabilityOptions = shuffle(['Stable', 'Not stable']);
   questions.push({
     id: 'stable',
@@ -96,7 +97,7 @@ export function generateQuiz(
       ? `${current.name} preserves the relative order of equal elements.`
       : `${current.name} may reorder equal elements.`,
   });
-
+  }
   // Q4: When to use (pick from other algorithms' whenToUse + a "never" distractor)
   const whenCorrect = current.whenToUse;
   const whenDistractors = pickDistractors(
