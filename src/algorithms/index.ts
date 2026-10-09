@@ -3,12 +3,22 @@ import { bubbleSort } from './sorting/bubbleSort';
 import { mergeSort } from './sorting/mergeSort';
 import { quickSort } from './sorting/quickSort';
 import { heapSort } from './sorting/heapSort';
+import { linearSearch } from './searching/linearSearch';
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
   bubbleSort,
   mergeSort,
   quickSort,
   heapSort,
+];
+
+export const searchingAlgorithms: SortingAlgorithm[] = [
+  linearSearch,
+];
+
+export const allAlgorithms: SortingAlgorithm[] = [
+  ...sortingAlgorithms,
+  ...searchingAlgorithms,
 ];
 
 
