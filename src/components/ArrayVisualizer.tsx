@@ -25,8 +25,8 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
     <div className="relative flex h-96 w-full flex-col gap-2 px-4">
       {/* Target badge — only visible for searching algorithms */}
       {target !== undefined && (
-        <div className="flex justify-center">
-          <div className="rounded-full bg-indigo-500 px-4 py-1 font-mono text-xs text-white">
+        <div className="flex justify-center pb-8">
+          <div className="rounded-full bg-indigo-500 px-4 py-1.5 font-mono text-xs text-white shadow-lg">
             🎯 Target: {target}
           </div>
         </div>
