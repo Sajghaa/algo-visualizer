@@ -7,6 +7,7 @@ export const quickSort: SortingAlgorithm = {
   timeComplexity: 'O(n log n) average, O(n²) worst',
   spaceComplexity: 'O(log n) — recursion stack',
   stable: false,
+  category: 'sorting',
 
   keyIdeas: [
     'Pick a pivot; partition so smaller elements are left, larger are right',
