@@ -1,12 +1,12 @@
-import type { AlgorithmStep } from '../algorithms/types';
+import type { ArrayStep } from '../algorithms/types';
 
 interface ArrayVisualizerProps {
-  step: AlgorithmStep;
+  step: ArrayStep;
   maxValue: number;
 }
 
 export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
-  const { array, highlighted, sorted,eliminated ,pointers, concept, target } = step;
+  const { array, highlighted, sorted, eliminated ,pointers, concept, target } = step;
 
   const getBarColor = (index: number): string => {
     if (sorted.includes(index)) return 'bg-green-500';

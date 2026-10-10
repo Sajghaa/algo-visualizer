@@ -39,7 +39,7 @@ export const bfs: SortingAlgorithm = {
     '  return no path',
   ],
 
-  generateSteps(input: number[]): AlgorithmStep[] {
+  generateSteps(_input: number[]): AlgorithmStep[] {
     // The "input" parameter is unused for grid algorithms, but our
     // interface requires it. We generate the grid internally.
     const rows = 15;
