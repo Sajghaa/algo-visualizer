@@ -12,6 +12,7 @@ import { useVisualizer } from './hooks/useVisualizer';
 import { encodeState, decodeState } from './utils/urlState';
 import { useProgress } from './progress/useProgress';
 import { useAuth } from './auth/useAuth';
+import { GridVisualizer } from './components/GridVisualizer';
 
 function App() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -157,10 +158,11 @@ function App() {
         {/* Main grid: visualizer + pseudocode */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="rounded-lg bg-slate-800 p-6 lg:col-span-2">
-            <ArrayVisualizer
-              step={visualizer.currentStep}
-              maxValue={maxValue}
-            />
+           {visualizer.currentStep.kind === 'grid' ? (
+              <GridVisualizer step={visualizer.currentStep} />
+            ) : (
+              <ArrayVisualizer step={visualizer.currentStep} maxValue={maxValue} />
+            )}
 
             <div className="mt-6 rounded-md bg-slate-900 p-3">
               <p className="text-center font-mono text-sm text-white">
