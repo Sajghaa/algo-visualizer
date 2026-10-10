@@ -39,30 +39,50 @@ export const bfs: SortingAlgorithm = {
     '  return no path',
   ],
 
-  generateSteps(_input: number[]): AlgorithmStep[] {
-    // The "input" parameter is unused for grid algorithms, but our
-    // interface requires it. We generate the grid internally.
+  generateSteps(_input: number[], _target?: number, providedGrid?: CellType[][]): AlgorithmStep[] {
     const rows = 15;
     const cols = 25;
-    const wallDensity = 0.25;
 
-    const grid: CellType[][] = [];
-    for (let r = 0; r < rows; r++) {
-      const row: CellType[] = [];
-      for (let c = 0; c < cols; c++) {
-        row.push(Math.random() < wallDensity ? 'wall' : 'empty');
+    let grid: CellType[][];
+
+    if (providedGrid) {
+      
+      grid = providedGrid.map((row) => [...row]);
+    } else {
+      
+      const wallDensity = 0.25;
+      grid = [];
+      for (let r = 0; r < rows; r++) {
+        const row: CellType[] = [];
+        for (let c = 0; c < cols; c++) {
+          row.push(Math.random() < wallDensity ? 'wall' : 'empty');
+        }
+        grid.push(row);
       }
-      grid.push(row);
+
+      grid[0][0] = 'start';
+      grid[rows - 1][cols - 1] = 'end';
+
+      for (const [r, c] of [[0, 0], [rows - 1, cols - 1]] as [number, number][]) {
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            const nr = r + dr;
+            const nc = c + dc;
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === 'wall') {
+              grid[nr][nc] = 'empty';
+            }
+          }
+        }
+      }
     }
 
     const start: [number, number] = [0, 0];
     const end: [number, number] = [rows - 1, cols - 1];
 
-    // Ensure start/end are open
     grid[start[0]][start[1]] = 'start';
     grid[end[0]][end[1]] = 'end';
 
-    // Clear a small area around each so we don't trap ourselves
+
     for (const [r, c] of [start, end]) {
       for (let dr = -1; dr <= 1; dr++) {
         for (let dc = -1; dc <= 1; dc++) {
@@ -99,7 +119,7 @@ export const bfs: SortingAlgorithm = {
     while (queue.length > 0) {
       const [r, c] = queue.shift()!;
 
-      // Current step — show the dequeued cell
+      
       steps.push({
         kind: 'grid',
         grid: cloneGrid(grid),
@@ -110,7 +130,7 @@ export const bfs: SortingAlgorithm = {
         lineOfCode: 3,
       });
 
-      // Reached the end?
+     
       if (r === end[0] && c === end[1]) {
         const path: string[] = [];
         let cursor = `${r},${c}`;
@@ -138,7 +158,7 @@ export const bfs: SortingAlgorithm = {
         return steps;
       }
 
-      // Explore neighbors
+      
       for (const [dr, dc] of directions) {
         const nr = r + dr;
         const nc = c + dc;

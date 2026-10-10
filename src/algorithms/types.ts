@@ -56,5 +56,9 @@ export interface AlgorithmInfo {
 }
 
 export interface SortingAlgorithm extends AlgorithmInfo {
-  generateSteps(input: number[], target?: number): AlgorithmStep[];
+  generateSteps(
+    input: number[], 
+    target?: number,
+    grid?: CellType[][]
+  ): AlgorithmStep[];
 }
