@@ -7,6 +7,15 @@ export type AlgorithmCategory =
   | 'linked-list'
   | 'dp';
 
+export type CellType =
+  | 'empty'
+  | 'wall'
+  | 'start'
+  | 'end'
+  | 'visited'
+  | 'path';
+
+
 export interface BaseStep {
   description: string;
   explanation: string;
@@ -24,8 +33,14 @@ export interface ArrayStep extends BaseStep {
   target?: number;
 }
 
+export interface GridStep extends BaseStep {
+  kind: 'grid';                    
+  grid: CellType[][];
+  current?: [number, number];     
+}
 
-export type AlgorithmStep = ArrayStep;
+
+export type AlgorithmStep = ArrayStep | GridStep;
 
 export interface AlgorithmInfo {
   slug: string;
