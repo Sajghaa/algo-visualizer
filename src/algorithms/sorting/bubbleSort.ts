@@ -7,6 +7,7 @@ export const bubbleSort: SortingAlgorithm = {
   timeComplexity: 'O(n²)',
   spaceComplexity: 'O(1)',
   stable: true,
+  category:'sorting',
 
   keyIdeas: [
     'Compares adjacent elements and swaps them if out of order',
