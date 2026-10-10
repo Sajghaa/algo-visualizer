@@ -5,6 +5,7 @@ import { quickSort } from './sorting/quickSort';
 import { heapSort } from './sorting/heapSort';
 import { linearSearch } from './searching/linearSearch';
 import { binarySearch } from './searching/binarySearch';
+import { jumpSearch } from './searching/jumpSearch';
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
   bubbleSort,
@@ -16,6 +17,7 @@ export const sortingAlgorithms: SortingAlgorithm[] = [
 export const searchingAlgorithms: SortingAlgorithm[] = [
   linearSearch,
   binarySearch,
+  jumpSearch,
 ];
 
 export const allAlgorithms: SortingAlgorithm[] = [
