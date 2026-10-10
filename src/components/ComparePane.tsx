@@ -3,7 +3,6 @@ import { GridVisualizer } from './GridVisualizer';
 import type { useVisualizer } from '../hooks/useVisualizer';
 
 interface ComparePaneProps {
-  algorithm: SortingAlgorithm;
   visualizer: ReturnType<typeof useVisualizer>;
   label: string;
   onAlgorithmChange: (index: number) => void;
@@ -12,7 +11,6 @@ interface ComparePaneProps {
 }
 
 export function ComparePane({
-  algorithm,
   visualizer,
   label,
   onAlgorithmChange,

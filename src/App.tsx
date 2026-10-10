@@ -184,7 +184,7 @@ function App() {
           <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <ComparePane
-                algorithm={compareA}
+                
                 visualizer={vizA}
                 label="A"
                 onAlgorithmChange={setCompareAIndex}
@@ -192,7 +192,7 @@ function App() {
                 algorithms={pathfindingAlgorithms}
               />
               <ComparePane
-                algorithm={compareB}
+                
                 visualizer={vizB}
                 label="B"
                 onAlgorithmChange={setCompareBIndex}
