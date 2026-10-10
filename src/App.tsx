@@ -34,14 +34,10 @@ function App() {
 
   const algorithm = allAlgorithms[algorithmIndex];
 
-  const target = useMemo(() => {
-    if (algorithm.category !== 'searching') return undefined;
-    return inputArray[Math.floor(Math.random() * inputArray.length)];
-  }, [algorithm, inputArray]);
 
   const steps = useMemo(
-    () => algorithm.generateSteps(inputArray, target),
-    [algorithm, inputArray, target]
+    () => algorithm.generateSteps(inputArray),
+    [algorithm, inputArray]
   );
 
   const { progress, recordQuizAttempt } = useProgress();
