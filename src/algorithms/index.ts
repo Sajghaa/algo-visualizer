@@ -7,7 +7,7 @@ import { linearSearch } from './searching/linearSearch';
 import { binarySearch } from './searching/binarySearch';
 import { jumpSearch } from './searching/jumpSearch';
 import { interpolationSearch } from './searching/interpolationSearch';
-
+import { bfs } from './pathfinding/bfs';
 export const sortingAlgorithms: SortingAlgorithm[] = [
   bubbleSort,
   mergeSort,
@@ -22,9 +22,12 @@ export const searchingAlgorithms: SortingAlgorithm[] = [
   interpolationSearch,
 ];
 
+export const pathfindingAlgorithms: SortingAlgorithm[] = [bfs];
+
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
   ...searchingAlgorithms,
+  ...pathfindingAlgorithms,
 ];
 
 
