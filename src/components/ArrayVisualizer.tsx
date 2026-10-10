@@ -6,10 +6,11 @@ interface ArrayVisualizerProps {
 }
 
 export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
-  const { array, highlighted, sorted, pointers, concept, target } = step;
+  const { array, highlighted, sorted,eliminated ,pointers, concept, target } = step;
 
   const getBarColor = (index: number): string => {
     if (sorted.includes(index)) return 'bg-green-500';
+    if (eliminated?.includes(index)) return 'bg-slate-600';
     if (highlighted.includes(index)) {
       if (concept === 'swap') return 'bg-red-500';
       if (concept === 'merge') return 'bg-purple-500';
