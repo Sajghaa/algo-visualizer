@@ -3,10 +3,11 @@ export interface AlgorithmStep {
     array: number[];
     highlighted : number[];
     sorted: number[];
+    eliminated?: number[];
     pointers?: Record<string, number>;
     description: string;
     explanation: string;
-    concept?: 'compare' | 'swap' | 'done' | 'mark' | 'divide' | 'merge' | 'pivot'|'eliminated';
+    concept?: 'compare' | 'swap' | 'done' | 'mark' | 'divide' | 'merge' | 'pivot';
     lineOfCode?: number;
     target?: number;
 }
