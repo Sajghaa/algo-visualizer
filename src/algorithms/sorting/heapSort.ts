@@ -7,6 +7,7 @@ export const heapSort: SortingAlgorithm = {
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(1)',
   stable: false,
+  category: 'sorting',
 
   keyIdeas: [
     'The array is treated as a binary tree: children of i are 2i+1 and 2i+2',
