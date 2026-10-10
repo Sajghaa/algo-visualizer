@@ -7,6 +7,7 @@ export const mergeSort: SortingAlgorithm = {
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(n)',
   stable: true,
+  category: 'sorting',
 
   keyIdeas: [
     'Divide and conquer: split, sort each half, merge',
