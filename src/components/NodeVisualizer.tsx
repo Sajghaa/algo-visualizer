@@ -62,7 +62,8 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
       case 'current': return '#eab308';     
       case 'comparing': return '#f97316';   
       case 'inserted': return '#22c55e';    
-      case 'found': return '#10b981';       
+      case 'found': return '#10b981';
+      case 'eliminated': return '#334155';       
       default: return '#6366f1';            
     }
   };
@@ -124,7 +125,7 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fill="white"
+                fill={node.state === 'eliminated' ? '#64748b' : 'white'}
                 fontSize="14"
                 fontWeight="600"
                 fontFamily="ui-monospace, monospace"
