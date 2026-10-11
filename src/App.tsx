@@ -16,6 +16,7 @@ import { encodeState, decodeState } from './utils/urlState';
 import { useProgress } from './progress/useProgress';
 import { useAuth } from './auth/useAuth';
 import type { CellType } from './algorithms/types';
+import { NodeVisualizer } from './components/NodeVisualizer';
 
 function App() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -267,11 +268,10 @@ function App() {
               <div className="rounded-lg bg-slate-800 p-6 lg:col-span-2">
                 {visualizer.currentStep.kind === 'grid' ? (
                   <GridVisualizer step={visualizer.currentStep} />
+                ) : visualizer.currentStep.kind === 'nodes' ? (
+                  <NodeVisualizer step={visualizer.currentStep} />
                 ) : (
-                  <ArrayVisualizer
-                    step={visualizer.currentStep}
-                    maxValue={maxValue}
-                  />
+                  <ArrayVisualizer step={visualizer.currentStep} maxValue={maxValue} />
                 )}
 
                 <div className="mt-6 rounded-md bg-slate-900 p-3">
