@@ -21,7 +21,8 @@ export type NodeState =
   | 'current'
   | 'comparing'
   | 'inserted'
-  | 'found';  
+  | 'found'  
+  | 'eliminated'; 
 
 
 export interface TreeNode {
