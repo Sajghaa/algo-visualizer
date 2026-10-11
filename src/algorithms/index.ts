@@ -15,6 +15,7 @@ import { bstInsert } from './tree/bstInsert';
 import { inorderTraversal } from './tree/inorderTraversal';
 import { preorderTraversal } from './tree/preorderTraversal';
 import { postorderTraversal } from './tree/postorderTraversal';
+import { bstSearch } from './tree/bstSearch';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -43,6 +44,7 @@ export const treeAlgorithm: SortingAlgorithm[] = [
   inorderTraversal,
   preorderTraversal,
   postorderTraversal,
+  bstSearch,
 ];
 
 
