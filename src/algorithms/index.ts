@@ -19,6 +19,7 @@ import { bstSearch } from './tree/bstSearch';
 import { avlInsert } from './tree/avIInsert';
 import { bstDelete } from './tree/bstDelete';
 import { avlDelete } from './tree/avlDelete';
+import { reverseLinkedList } from './linkedList/reverseLinkedList';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -53,12 +54,14 @@ export const treeAlgorithm: SortingAlgorithm[] = [
   avlDelete,
 ];
 
+export const linkedListAlgorithms: SortingAlgorithm[] = [reverseLinkedList];
 
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
   ...searchingAlgorithms,
   ...pathfindingAlgorithms,
   ...treeAlgorithm,
+  ...linkedListAlgorithms,
 
 ];
 
