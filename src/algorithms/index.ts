@@ -11,6 +11,7 @@ import { bfs } from './pathfinding/bfs';
 import { dfs } from './pathfinding/dfs';
 import { dijkstra } from './pathfinding/dijkstra';
 import { astar } from './pathfinding/astar';
+import { bstInsert } from './tree/bstInsert';
 export const sortingAlgorithms: SortingAlgorithm[] = [
   bubbleSort,
   mergeSort,
@@ -32,10 +33,15 @@ export const pathfindingAlgorithms: SortingAlgorithm[] = [
   astar,
 ];
 
+export const treeAlgorithm: SortingAlgorithm[] = [bstInsert];
+
+
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
   ...searchingAlgorithms,
   ...pathfindingAlgorithms,
+  ...treeAlgorithm,
+
 ];
 
 
