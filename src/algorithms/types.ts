@@ -60,7 +60,8 @@ export interface GridStep extends BaseStep {
 export interface NodeStep extends BaseStep {
   kind: 'nodes';
   nodes: TreeNode[];
-  rootId: string;   
+  rootId: string;
+  layout?: 'tree' | 'linear';   
   rotation?: {
     pivotId: string;
     type: 'LL' | 'RR' | 'LR' | 'RL';
