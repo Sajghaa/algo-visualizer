@@ -1,42 +1,12 @@
 import type {
   AlgorithmStep,
   SortingAlgorithm,
-  TreeNode,
+  
 } from '../types';
 
 
-function buildBalancedBST(values: number[]): { nodes: TreeNode[]; rootId: string } {
-  const nodes: TreeNode[] = [];
-  let nextId = 0;
+import { buildBalancedBST } from './treeUtils';
 
-  function build(
-    sorted: number[],
-    lo: number,
-    hi: number
-  ): string | undefined {
-    if (lo > hi) return undefined;
-    const mid = Math.floor((lo + hi) / 2);
-    const id = `n${nextId++}`;
-
-    nodes.push({ id, value: sorted[mid] });
-
-    const leftId = build(sorted, lo, mid - 1);
-    const rightId = build(sorted, mid + 1, hi);
-
-    const idx = nodes.findIndex((n) => n.id === id);
-    nodes[idx] = {
-      ...nodes[idx],
-      left: leftId,
-      right: rightId,
-    };
-
-    return id;
-  }
-
-  const sorted = [...values].sort((a, b) => a - b);
-  const rootId = build(sorted, 0, sorted.length - 1) ?? '';
-  return { nodes, rootId };
-}
 
 export const preorderTraversal: SortingAlgorithm = {
   slug: 'preorder-traversal',

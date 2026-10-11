@@ -4,6 +4,7 @@ import type {
   TreeNode,
 } from '../types';
 
+
 export const bstInsert: SortingAlgorithm = {
   slug: 'bst-insert',
   name: 'BST Insert',

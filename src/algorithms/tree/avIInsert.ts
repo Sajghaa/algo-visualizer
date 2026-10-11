@@ -4,48 +4,13 @@ import type {
   TreeNode,
 } from '../types';
 
-
-function getHeight(nodes: TreeNode[], id: string | undefined): number {
-  if (!id) return 0;
-  const node = nodes.find((n) => n.id === id);
-  if (!node) return 0;
-  return 1 + Math.max(getHeight(nodes, node.left), getHeight(nodes, node.right));
-}
-
-function getBalance(nodes: TreeNode[], id: string): number {
-  const node = nodes.find((n) => n.id === id);
-  if (!node) return 0;
-  return getHeight(nodes, node.left) - getHeight(nodes, node.right);
-}
+import {
+  getBalance,
+  rotateLeft,
+  rotateRight,
+} from './treeUtils';
 
 
-function rotateRight(nodes: TreeNode[], pivotId: string): string {
-  const pivot = nodes.find((n) => n.id === pivotId)!;
-  const newRoot = nodes.find((n) => n.id === pivot.left)!;
-  const newRootId = newRoot.id;
-
-  const pivotIdx = nodes.findIndex((n) => n.id === pivotId);
-  nodes[pivotIdx] = { ...pivot, left: newRoot.right };
-
-  const newRootIdx = nodes.findIndex((n) => n.id === newRootId);
-  nodes[newRootIdx] = { ...newRoot, right: pivotId };
-
-  return newRootId;
-}
-
-function rotateLeft(nodes: TreeNode[], pivotId: string): string {
-  const pivot = nodes.find((n) => n.id === pivotId)!;
-  const newRoot = nodes.find((n) => n.id === pivot.right)!;
-  const newRootId = newRoot.id;
-
-  const pivotIdx = nodes.findIndex((n) => n.id === pivotId);
-  nodes[pivotIdx] = { ...pivot, right: newRoot.left };
-
-  const newRootIdx = nodes.findIndex((n) => n.id === newRootId);
-  nodes[newRootIdx] = { ...newRoot, left: pivotId };
-
-  return newRootId;
-}
 
 
 export const avlInsert: SortingAlgorithm = {
