@@ -22,7 +22,8 @@ export type NodeState =
   | 'comparing'
   | 'inserted'
   | 'found'  
-  | 'eliminated'; 
+  | 'eliminated'
+  | 'pivot';
 
 
 export interface TreeNode {
@@ -31,6 +32,7 @@ export interface TreeNode {
   left?: string;    
   right?: string;   
   state?: NodeState;
+  balanceFactor?: number;
 }
 export interface BaseStep {
   description: string;
@@ -59,6 +61,10 @@ export interface NodeStep extends BaseStep {
   kind: 'nodes';
   nodes: TreeNode[];
   rootId: string;   
+  rotation?: {
+    pivotId: string;
+    type: 'LL' | 'RR' | 'LR' | 'RL';
+  }
 }
 
 export type AlgorithmStep = ArrayStep | GridStep | NodeStep;
