@@ -63,7 +63,8 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
       case 'comparing': return '#f97316';   
       case 'inserted': return '#22c55e';    
       case 'found': return '#10b981';
-      case 'eliminated': return '#334155';       
+      case 'eliminated': return '#334155';
+      case 'pivot': return '#ec4899';       
       default: return '#6366f1';            
     }
   };
@@ -132,6 +133,18 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
               >
                 {node.value}
               </text>
+
+              {node.balanceFactor !== undefined && (
+                <text
+                  x={x + NODE_RADIUS + 6}
+                  y={y - NODE_RADIUS + 6}
+                  fontSize="10"
+                  fill="#94a3b8"
+                  fontFamily="ui-monospace, monospace"
+                >
+                  {node.balanceFactor > 0 ? `+${node.balanceFactor}` : node.balanceFactor}
+                </text>
+              )}
             </g>
           );
         })}
