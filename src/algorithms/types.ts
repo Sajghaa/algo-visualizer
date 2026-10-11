@@ -16,6 +16,21 @@ export type CellType =
   | 'path';
 
 
+export type NodeState =
+  | 'default'
+  | 'current'
+  | 'comparing'
+  | 'inserted'
+  | 'found';  
+
+
+export interface TreeNode {
+  id: string;
+  value: number;
+  left?: string;    
+  right?: string;   
+  state?: NodeState;
+}
 export interface BaseStep {
   description: string;
   explanation: string;
@@ -39,8 +54,13 @@ export interface GridStep extends BaseStep {
   current?: [number, number];     
 }
 
+export interface NodeStep extends BaseStep {
+  kind: 'nodes';
+  nodes: TreeNode[];
+  rootId: string;   
+}
 
-export type AlgorithmStep = ArrayStep | GridStep;
+export type AlgorithmStep = ArrayStep | GridStep | NodeStep;
 
 export interface AlgorithmInfo {
   slug: string;
