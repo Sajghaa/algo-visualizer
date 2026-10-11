@@ -15,32 +15,39 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
   const nodeMap = new Map<string, TreeNode>();
   for (const n of nodes) nodeMap.set(n.id, n);
 
-
   const xPositions = new Map<string, number>();
-  let inOrderIndex = 0;
-
-  function walkInOrder(id: string | undefined) {
-    if (!id) return;
-    const node = nodeMap.get(id);
-    if (!node) return;
-    walkInOrder(node.left);
-    xPositions.set(id, inOrderIndex++);
-    walkInOrder(node.right);
-  }
-  if (rootId) walkInOrder(rootId);
-
-
   const yPositions = new Map<string, number>();
+  const layout = step.layout ?? 'tree';
 
-  function walkDepth(id: string | undefined, depth: number) {
-    if (!id) return;
-    const node = nodeMap.get(id);
-    if (!node) return;
-    yPositions.set(id, depth);
-    walkDepth(node.left, depth + 1);
-    walkDepth(node.right, depth + 1);
+  if (layout === 'linear') {
+
+    nodes.forEach((n, i) => {
+      xPositions.set(n.id, i);
+      yPositions.set(n.id, 0);
+    });
+  } else {
+
+    let inOrderIndex = 0;
+    function walkInOrder(id: string | undefined) {
+      if (!id) return;
+      const node = nodeMap.get(id);
+      if (!node) return;
+      walkInOrder(node.left);
+      xPositions.set(id, inOrderIndex++);
+      walkInOrder(node.right);
+    }
+    if (rootId) walkInOrder(rootId);
+
+    function walkDepth(id: string | undefined, depth: number) {
+      if (!id) return;
+      const node = nodeMap.get(id);
+      if (!node) return;
+      yPositions.set(id, depth);
+      walkDepth(node.left, depth + 1);
+      walkDepth(node.right, depth + 1);
+    }
+    if (rootId) walkDepth(rootId, 0);
   }
-  if (rootId) walkDepth(rootId, 0);
 
   const maxX = Math.max(0, ...Array.from(xPositions.values()));
   const maxY = Math.max(0, ...Array.from(yPositions.values()));
@@ -59,16 +66,15 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
 
   const stateColor = (state?: NodeState): string => {
     switch (state) {
-      case 'current': return '#eab308';     
-      case 'comparing': return '#f97316';   
-      case 'inserted': return '#22c55e';    
+      case 'current': return '#eab308';
+      case 'comparing': return '#f97316';
+      case 'inserted': return '#22c55e';
       case 'found': return '#10b981';
       case 'eliminated': return '#334155';
-      case 'pivot': return '#ec4899';       
-      default: return '#6366f1';            
+      case 'pivot': return '#ec4899';
+      default: return '#6366f1';
     }
   };
-
 
   const edges: { key: string; from: string; to: string }[] = [];
   for (const node of nodes) {
@@ -95,16 +101,34 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
         {edges.map(({ key, from, to }) => {
           const a = getXY(from);
           const b = getXY(to);
+          const isLinear = layout === 'linear';
+
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const ux = dx / dist;
+          const uy = dy / dist;
+
+          const endX = b.x - ux * (NODE_RADIUS + 2);
+          const endY = b.y - uy * (NODE_RADIUS + 2);
+
           return (
-            <line
-              key={key}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              stroke="#475569"
-              strokeWidth={2}
-            />
+            <g key={key}>
+              <line
+                x1={a.x}
+                y1={a.y}
+                x2={isLinear ? endX : b.x}
+                y2={isLinear ? endY : b.y}
+                stroke="#475569"
+                strokeWidth={2}
+              />
+              {isLinear && (
+                <polygon
+                  points={`${endX},${endY} ${endX - ux * 10 - uy * 5},${endY - uy * 10 + ux * 5} ${endX - ux * 10 + uy * 5},${endY - uy * 10 - ux * 5}`}
+                  fill="#475569"
+                />
+              )}
+            </g>
           );
         })}
 
