@@ -95,7 +95,7 @@ export const circularLinkedList: SortingAlgorithm = {
       );
     }
 
-    const newId = `n${nextId++}`;
+    const newId = `n${nextId}`;
     nodes.push({ id: newId, value: insertValue, state: 'inserted' });
 
     pushStep(
