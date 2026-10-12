@@ -33,6 +33,7 @@ export interface TreeNode {
   right?: string;   
   state?: NodeState;
   balanceFactor?: number;
+  yOffset?: number;
 }
 export interface BaseStep {
   description: string;
