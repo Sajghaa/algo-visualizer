@@ -25,6 +25,7 @@ import { insertTail } from './linkedList/insertTail';
 import { linkedListSearch } from './linkedList/linkedListSearch';
 import { deleteNode } from './linkedList/deleteNode';
 import { cycleDetection } from './linkedList/cycleDetection';
+import { mergeTwoSortedLists } from './linkedList/mergeTwoSortedLists';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -66,6 +67,7 @@ export const linkedListAlgorithms: SortingAlgorithm[] = [
   linkedListSearch,
   deleteNode,
   cycleDetection,
+  mergeTwoSortedLists,
 ];
 
 export const allAlgorithms: SortingAlgorithm[] = [
