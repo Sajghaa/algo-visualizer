@@ -21,9 +21,13 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
 
   if (layout === 'linear') {
 
-    nodes.forEach((n, i) => {
-      xPositions.set(n.id, i);
-      yPositions.set(n.id, 0);
+    const rowCounters = new Map<number, number>();
+    nodes.forEach((n) => {
+      const row = n.yOffset ?? 0;
+      const x = rowCounters.get(row) ?? 0;
+      xPositions.set(n.id, x);
+      yPositions.set(n.id, row);
+      rowCounters.set(row, x + 1);
     });
   } else {
 
