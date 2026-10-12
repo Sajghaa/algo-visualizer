@@ -23,6 +23,8 @@ import { reverseLinkedList } from './linkedList/reverseLinkedList';
 import { insertHead } from './linkedList/insertHead';
 import { insertTail } from './linkedList/insertTail';
 import { linkedListSearch } from './linkedList/linkedListSearch';
+import { deleteNode } from './linkedList/deleteNode';
+import { cycleDetection } from './linkedList/cycleDetection';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -62,6 +64,8 @@ export const linkedListAlgorithms: SortingAlgorithm[] = [
   insertHead,
   insertTail,
   linkedListSearch,
+  deleteNode,
+  cycleDetection,
 ];
 
 export const allAlgorithms: SortingAlgorithm[] = [
