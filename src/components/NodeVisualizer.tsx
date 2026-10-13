@@ -8,19 +8,20 @@ const NODE_RADIUS = 22;
 const H_GAP = 55;
 const V_GAP = 75;
 const PADDING = 40;
+const GRAPH_RADIUS = 160;
 
 export function NodeVisualizer({ step }: NodeVisualizerProps) {
-  const { nodes, rootId } = step;
+  const { nodes, rootId, edges: explicitEdges, layout: rawLayout } = step;
 
   const nodeMap = new Map<string, TreeNode>();
   for (const n of nodes) nodeMap.set(n.id, n);
 
+  const layout = rawLayout ?? 'tree';
+
   const xPositions = new Map<string, number>();
   const yPositions = new Map<string, number>();
-  const layout = step.layout ?? 'tree';
 
   if (layout === 'linear') {
-
     const rowCounters = new Map<number, number>();
     nodes.forEach((n) => {
       const row = n.yOffset ?? 0;
@@ -29,8 +30,15 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
       yPositions.set(n.id, row);
       rowCounters.set(row, x + 1);
     });
+  } else if (layout === 'graph') {
+    const cx = GRAPH_RADIUS + PADDING;
+    const cy = GRAPH_RADIUS + PADDING;
+    nodes.forEach((n, i) => {
+      const angle = (i / nodes.length) * 2 * Math.PI - Math.PI / 2;
+      xPositions.set(n.id, cx + GRAPH_RADIUS * Math.cos(angle));
+      yPositions.set(n.id, cy + GRAPH_RADIUS * Math.sin(angle));
+    });
   } else {
-
     let inOrderIndex = 0;
     function walkInOrder(id: string | undefined) {
       if (!id) return;
@@ -53,13 +61,28 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
     if (rootId) walkDepth(rootId, 0);
   }
 
-  const maxX = Math.max(0, ...Array.from(xPositions.values()));
-  const maxY = Math.max(0, ...Array.from(yPositions.values()));
 
-  const width = (maxX + 1) * H_GAP + PADDING * 2;
-  const height = (maxY + 1) * V_GAP + PADDING * 2;
+  let width: number;
+  let height: number;
+
+  if (layout === 'graph') {
+    width = 2 * GRAPH_RADIUS + 2 * PADDING;
+    height = 2 * GRAPH_RADIUS + 2 * PADDING;
+  } else {
+    const maxX = Math.max(0, ...Array.from(xPositions.values()));
+    const maxY = Math.max(0, ...Array.from(yPositions.values()));
+    width = (maxX + 1) * H_GAP + PADDING * 2;
+    height = (maxY + 1) * V_GAP + PADDING * 2;
+  }
 
   function getXY(id: string): { x: number; y: number } {
+    if (layout === 'graph') {
+      return {
+        x: xPositions.get(id) ?? 0,
+        y: yPositions.get(id) ?? 0,
+      };
+    }
+
     const xi = xPositions.get(id) ?? 0;
     const yi = yPositions.get(id) ?? 0;
     return {
@@ -81,9 +104,16 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
   };
 
   const edges: { key: string; from: string; to: string }[] = [];
-  for (const node of nodes) {
-    if (node.left) edges.push({ key: `${node.id}-L`, from: node.id, to: node.left });
-    if (node.right) edges.push({ key: `${node.id}-R`, from: node.id, to: node.right });
+
+  if (explicitEdges) {
+    explicitEdges.forEach(([from, to], i) => {
+      edges.push({ key: `e${i}`, from, to });
+    });
+  } else {
+    for (const node of nodes) {
+      if (node.left) edges.push({ key: `${node.id}-L`, from: node.id, to: node.left });
+      if (node.right) edges.push({ key: `${node.id}-R`, from: node.id, to: node.right });
+    }
   }
 
   if (nodes.length === 0) {
@@ -101,11 +131,11 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
         className="h-full max-h-96 w-full"
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Edges first — they render behind nodes */}
+   
         {edges.map(({ key, from, to }) => {
           const a = getXY(from);
           const b = getXY(to);
-          const isLinear = layout === 'linear';
+          const showArrow = layout === 'linear' || layout === 'graph';
 
           const dx = b.x - a.x;
           const dy = b.y - a.y;
@@ -121,12 +151,12 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
               <line
                 x1={a.x}
                 y1={a.y}
-                x2={isLinear ? endX : b.x}
-                y2={isLinear ? endY : b.y}
+                x2={showArrow ? endX : b.x}
+                y2={showArrow ? endY : b.y}
                 stroke="#475569"
                 strokeWidth={2}
               />
-              {isLinear && (
+              {showArrow && (
                 <polygon
                   points={`${endX},${endY} ${endX - ux * 10 - uy * 5},${endY - uy * 10 + ux * 5} ${endX - ux * 10 + uy * 5},${endY - uy * 10 - ux * 5}`}
                   fill="#475569"
