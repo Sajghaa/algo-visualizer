@@ -62,7 +62,8 @@ export interface NodeStep extends BaseStep {
   kind: 'nodes';
   nodes: TreeNode[];
   rootId: string;
-  layout?: 'tree' | 'linear';   
+  layout?: 'tree' | 'linear' | 'graph';
+  edges?: [string, string][];   
   rotation?: {
     pivotId: string;
     type: 'LL' | 'RR' | 'LR' | 'RL';
