@@ -61,7 +61,6 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
     if (rootId) walkDepth(rootId, 0);
   }
 
-
   let width: number;
   let height: number;
 
@@ -82,7 +81,6 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
         y: yPositions.get(id) ?? 0,
       };
     }
-
     const xi = xPositions.get(id) ?? 0;
     const yi = yPositions.get(id) ?? 0;
     return {
@@ -103,17 +101,11 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
     }
   };
 
-  const edges: { key: string; from: string; to: string }[] = [];
-
-  if (explicitEdges) {
-    explicitEdges.forEach((e, i) => {
-      edges.push({ key: `e${i}`, from: e.from, to: e.to });
-    });
-  } else {
-    for (const node of nodes) {
-      if (node.left) edges.push({ key: `${node.id}-L`, from: node.id, to: node.left });
-      if (node.right) edges.push({ key: `${node.id}-R`, from: node.id, to: node.right });
-    }
+  // Edges for tree/linear layouts (derived from left/right pointers)
+  const derivedEdges: { key: string; from: string; to: string }[] = [];
+  for (const node of nodes) {
+    if (node.left) derivedEdges.push({ key: `${node.id}-L`, from: node.id, to: node.left });
+    if (node.right) derivedEdges.push({ key: `${node.id}-R`, from: node.id, to: node.right });
   }
 
   if (nodes.length === 0) {
@@ -131,40 +123,107 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
         className="h-full max-h-96 w-full"
         preserveAspectRatio="xMidYMid meet"
       >
-   
-        {edges.map(({ key, from, to }) => {
-          const a = getXY(from);
-          const b = getXY(to);
-          const showArrow = layout === 'linear' || layout === 'graph';
+        {explicitEdges
+          ? /* ===== GRAPH MODE: explicit edges with weights & states ===== */
+            explicitEdges.map((edge, i) => {
+              const a = getXY(edge.from);
+              const b = getXY(edge.to);
+              const showArrow = layout === 'linear' || layout === 'graph';
 
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const ux = dx / dist;
-          const uy = dy / dist;
+              const dx = b.x - a.x;
+              const dy = b.y - a.y;
+              const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+              const ux = dx / dist;
+              const uy = dy / dist;
 
-          const endX = b.x - ux * (NODE_RADIUS + 2);
-          const endY = b.y - uy * (NODE_RADIUS + 2);
+              const endX = b.x - ux * (NODE_RADIUS + 2);
+              const endY = b.y - uy * (NODE_RADIUS + 2);
 
-          return (
-            <g key={key}>
-              <line
-                x1={a.x}
-                y1={a.y}
-                x2={showArrow ? endX : b.x}
-                y2={showArrow ? endY : b.y}
-                stroke="#475569"
-                strokeWidth={2}
-              />
-              {showArrow && (
-                <polygon
-                  points={`${endX},${endY} ${endX - ux * 10 - uy * 5},${endY - uy * 10 + ux * 5} ${endX - ux * 10 + uy * 5},${endY - uy * 10 - ux * 5}`}
-                  fill="#475569"
-                />
-              )}
-            </g>
-          );
-        })}
+              const strokeColor = (() => {
+                switch (edge.state) {
+                  case 'chosen': return '#22c55e';
+                  case 'considering': return '#eab308';
+                  case 'rejected': return '#334155';
+                  default: return '#475569';
+                }
+              })();
+
+              const isFaded = edge.state === 'rejected';
+
+              return (
+                <g key={`e${i}`} opacity={isFaded ? 0.35 : 1}>
+                  <line
+                    x1={a.x}
+                    y1={a.y}
+                    x2={showArrow ? endX : b.x}
+                    y2={showArrow ? endY : b.y}
+                    stroke={strokeColor}
+                    strokeWidth={edge.state === 'chosen' ? 3 : 2}
+                  />
+                  {showArrow && (
+                    <polygon
+                      points={`${endX},${endY} ${endX - ux * 10 - uy * 5},${endY - uy * 10 + ux * 5} ${endX - ux * 10 + uy * 5},${endY - uy * 10 - ux * 5}`}
+                      fill={strokeColor}
+                    />
+                  )}
+                  {edge.weight !== undefined && (
+                    <g>
+                      <circle
+                        cx={(a.x + b.x) / 2}
+                        cy={(a.y + b.y) / 2}
+                        r={10}
+                        fill="#0f172a"
+                      />
+                      <text
+                        x={(a.x + b.x) / 2}
+                        y={(a.y + b.y) / 2}
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fill="white"
+                        fontSize="11"
+                        fontFamily="ui-monospace, monospace"
+                      >
+                        {edge.weight}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            })
+          : /* ===== TREE / LINEAR MODE: derived edges, no weights ===== */
+            derivedEdges.map(({ key, from, to }) => {
+              const a = getXY(from);
+              const b = getXY(to);
+              const showArrow = layout === 'linear';
+
+              const dx = b.x - a.x;
+              const dy = b.y - a.y;
+              const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+              const ux = dx / dist;
+              const uy = dy / dist;
+
+              const endX = b.x - ux * (NODE_RADIUS + 2);
+              const endY = b.y - uy * (NODE_RADIUS + 2);
+
+              return (
+                <g key={key}>
+                  <line
+                    x1={a.x}
+                    y1={a.y}
+                    x2={showArrow ? endX : b.x}
+                    y2={showArrow ? endY : b.y}
+                    stroke="#475569"
+                    strokeWidth={2}
+                  />
+                  {showArrow && (
+                    <polygon
+                      points={`${endX},${endY} ${endX - ux * 10 - uy * 5},${endY - uy * 10 + ux * 5} ${endX - ux * 10 + uy * 5},${endY - uy * 10 - ux * 5}`}
+                      fill="#475569"
+                    />
+                  )}
+                </g>
+              );
+            })}
 
         {/* Nodes */}
         {nodes.map((node) => {
