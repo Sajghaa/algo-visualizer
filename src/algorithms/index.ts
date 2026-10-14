@@ -29,6 +29,7 @@ import { mergeTwoSortedLists } from './linkedList/mergeTwoSortedLists';
 import { circularLinkedList } from './linkedList/circularLinkedList';
 import { topologicalSort } from './graph/topologicalSort';
 import { primsMST } from './graph/primsMST';
+import { kruskalsMST } from './graph/kruskalsMST';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -74,7 +75,11 @@ export const linkedListAlgorithms: SortingAlgorithm[] = [
   circularLinkedList,
 ];
 
-export const graphAlgorithms: SortingAlgorithm[] = [topologicalSort, primsMST];
+export const graphAlgorithms: SortingAlgorithm[] = [
+  topologicalSort, 
+  primsMST,
+  kruskalsMST,
+];
 
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
