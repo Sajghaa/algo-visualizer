@@ -3,27 +3,26 @@ import type {
   SortingAlgorithm,
   TreeNode,
   NodeState,
+  GraphEdge,
 } from '../types';
 
 function generateDAG(numNodes: number, edgeProbability: number): {
   nodes: TreeNode[];
-  edges: [string, string][];
+  edges: GraphEdge[];
 } {
   const nodes: TreeNode[] = [];
   for (let i = 0; i < numNodes; i++) {
     nodes.push({ id: `n${i}`, value: i + 1 });
   }
 
-  // Randomly assign each node a "rank" — a random position in the topological order
   const ranks = [...Array(numNodes).keys()].sort(() => Math.random() - 0.5);
 
-  // Only add edges from lower rank to higher rank → guaranteed DAG
-  const edges: [string, string][] = [];
+  const edges: GraphEdge[] = [];
   for (let i = 0; i < numNodes; i++) {
     for (let j = 0; j < numNodes; j++) {
       if (i === j) continue;
       if (ranks[i] < ranks[j] && Math.random() < edgeProbability) {
-        edges.push([`n${i}`, `n${j}`]);
+        edges.push({ from: `n${i}`, to: `n${j}` });
       }
     }
   }
@@ -75,7 +74,7 @@ export const topologicalSort: SortingAlgorithm = {
       adj.set(n.id, []);
       inDegree.set(n.id, 0);
     }
-    for (const [from, to] of edges) {
+    for (const {from, to} of edges) {
       adj.get(from)!.push(to);
       inDegree.set(to, (inDegree.get(to) ?? 0) + 1);
     }
