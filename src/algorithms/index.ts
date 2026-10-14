@@ -28,6 +28,7 @@ import { cycleDetection } from './linkedList/cycleDetection';
 import { mergeTwoSortedLists } from './linkedList/mergeTwoSortedLists';
 import { circularLinkedList } from './linkedList/circularLinkedList';
 import { topologicalSort } from './graph/topologicalSort';
+import { primsMST } from './graph/primsMST';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -73,7 +74,7 @@ export const linkedListAlgorithms: SortingAlgorithm[] = [
   circularLinkedList,
 ];
 
-export const graphAlgorithms: SortingAlgorithm[] = [topologicalSort];
+export const graphAlgorithms: SortingAlgorithm[] = [topologicalSort, primsMST];
 
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
