@@ -106,8 +106,8 @@ export function NodeVisualizer({ step }: NodeVisualizerProps) {
   const edges: { key: string; from: string; to: string }[] = [];
 
   if (explicitEdges) {
-    explicitEdges.forEach(([from, to], i) => {
-      edges.push({ key: `e${i}`, from, to });
+    explicitEdges.forEach((e, i) => {
+      edges.push({ key: `e${i}`, from: e.from, to: e.to });
     });
   } else {
     for (const node of nodes) {
