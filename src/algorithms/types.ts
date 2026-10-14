@@ -26,6 +26,20 @@ export type NodeState =
   | 'pivot';
 
 
+export type EdgeState =
+  | 'default'      
+  | 'considering'  
+  | 'chosen'
+  | 'rejected';
+
+
+export interface GraphEdge {
+  from: string;
+  to: string;
+  weight?: number;
+  state?: EdgeState;
+}
+
 export interface TreeNode {
   id: string;
   value: number;
@@ -63,7 +77,7 @@ export interface NodeStep extends BaseStep {
   nodes: TreeNode[];
   rootId: string;
   layout?: 'tree' | 'linear' | 'graph';
-  edges?: [string, string][];   
+  edges?: GraphEdge[];   
   rotation?: {
     pivotId: string;
     type: 'LL' | 'RR' | 'LR' | 'RL';
