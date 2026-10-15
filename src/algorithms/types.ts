@@ -33,6 +33,18 @@ export type EdgeState =
   | 'rejected';
 
 
+export type TableCellState =
+  | 'default'
+  | 'current'      
+  | 'reading'      
+  | 'filled'      
+  | 'highlight';   
+
+export interface TableCell {
+  value: number | string;    
+  state?: TableCellState;
+}
+
 export interface GraphEdge {
   from: string;
   to: string;
@@ -84,7 +96,13 @@ export interface NodeStep extends BaseStep {
   }
 }
 
-export type AlgorithmStep = ArrayStep | GridStep | NodeStep;
+export interface TableStep extends BaseStep {
+  kind: 'table';
+  table: TableCell[][];       
+  rowLabels?: string[];       
+  colLabels?: string[];       
+}
+export type AlgorithmStep = ArrayStep | GridStep | NodeStep | TableStep;
 
 export interface AlgorithmInfo {
   slug: string;
