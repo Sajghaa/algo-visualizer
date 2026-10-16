@@ -30,6 +30,7 @@ import { circularLinkedList } from './linkedList/circularLinkedList';
 import { topologicalSort } from './graph/topologicalSort';
 import { primsMST } from './graph/primsMST';
 import { kruskalsMST } from './graph/kruskalsMST';
+import { fibonacci } from './dp/fibonacci';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -81,6 +82,8 @@ export const graphAlgorithms: SortingAlgorithm[] = [
   kruskalsMST,
 ];
 
+export const dpAlgorithms: SortingAlgorithm[] = [fibonacci];
+
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
   ...searchingAlgorithms,
@@ -88,6 +91,7 @@ export const allAlgorithms: SortingAlgorithm[] = [
   ...treeAlgorithm,
   ...linkedListAlgorithms,
   ...graphAlgorithms,
+  ...dpAlgorithms,
 
 ];
 
