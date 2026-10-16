@@ -31,6 +31,7 @@ import { topologicalSort } from './graph/topologicalSort';
 import { primsMST } from './graph/primsMST';
 import { kruskalsMST } from './graph/kruskalsMST';
 import { fibonacci } from './dp/fibonacci';
+import { lcs } from './dp/lcs';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -82,7 +83,10 @@ export const graphAlgorithms: SortingAlgorithm[] = [
   kruskalsMST,
 ];
 
-export const dpAlgorithms: SortingAlgorithm[] = [fibonacci];
+export const dpAlgorithms: SortingAlgorithm[] = [
+  fibonacci,
+  lcs,
+];
 
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
