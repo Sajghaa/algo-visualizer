@@ -126,7 +126,9 @@ export const lcs: SortingAlgorithm = {
     }
 
 
-    const finalSnapshot = table.map((row) => row.map((c) => ({ ...c, state: 'filled' as const })));
+    const finalSnapshot: TableCell[][] = table.map((row) =>
+      row.map((c) => ({ ...c, state: 'filled' }))
+    );
     finalSnapshot[m][n] = { ...finalSnapshot[m][n], state: 'highlight' };
 
     steps.push({
