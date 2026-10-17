@@ -32,6 +32,7 @@ import { primsMST } from './graph/primsMST';
 import { kruskalsMST } from './graph/kruskalsMST';
 import { fibonacci } from './dp/fibonacci';
 import { lcs } from './dp/lcs';
+import { knapsack } from './dp/knapsack';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -86,6 +87,7 @@ export const graphAlgorithms: SortingAlgorithm[] = [
 export const dpAlgorithms: SortingAlgorithm[] = [
   fibonacci,
   lcs,
+  knapsack,
 ];
 
 export const allAlgorithms: SortingAlgorithm[] = [
