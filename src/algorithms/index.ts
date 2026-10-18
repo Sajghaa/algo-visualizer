@@ -33,6 +33,7 @@ import { kruskalsMST } from './graph/kruskalsMST';
 import { fibonacci } from './dp/fibonacci';
 import { lcs } from './dp/lcs';
 import { knapsack } from './dp/knapsack';
+import { editDistance } from './dp/editDistance';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -88,6 +89,7 @@ export const dpAlgorithms: SortingAlgorithm[] = [
   fibonacci,
   lcs,
   knapsack,
+  editDistance,
 ];
 
 export const allAlgorithms: SortingAlgorithm[] = [
