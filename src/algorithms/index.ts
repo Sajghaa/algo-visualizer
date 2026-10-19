@@ -34,6 +34,7 @@ import { fibonacci } from './dp/fibonacci';
 import { lcs } from './dp/lcs';
 import { knapsack } from './dp/knapsack';
 import { editDistance } from './dp/editDistance';
+import { insertChaining } from '../components/insertChaining';
 
 
 export const sortingAlgorithms: SortingAlgorithm[] = [
@@ -91,6 +92,8 @@ export const dpAlgorithms: SortingAlgorithm[] = [
   knapsack,
   editDistance,
 ];
+export const hashTableAlgorithms: SortingAlgorithm[] = [insertChaining];
+
 
 export const allAlgorithms: SortingAlgorithm[] = [
   ...sortingAlgorithms,
@@ -100,6 +103,7 @@ export const allAlgorithms: SortingAlgorithm[] = [
   ...linkedListAlgorithms,
   ...graphAlgorithms,
   ...dpAlgorithms,
+  ...hashTableAlgorithms,
 
 ];
 
