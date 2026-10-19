@@ -38,7 +38,18 @@ export type TableCellState =
   | 'current'      
   | 'reading'      
   | 'filled'      
-  | 'highlight';   
+  | 'highlight';  
+  
+export type HashNodeState =
+  | 'default'
+  | 'current'     
+  | 'inserted'     
+  | 'collision'; 
+
+export interface HashNode {
+  value: number;
+  state?: HashNodeState;
+}
 
 export interface TableCell {
   value: number | string;    
@@ -102,7 +113,15 @@ export interface TableStep extends BaseStep {
   rowLabels?: string[];       
   colLabels?: string[];       
 }
-export type AlgorithmStep = ArrayStep | GridStep | NodeStep | TableStep;
+
+export interface HashTableStep extends BaseStep {
+  kind: 'hash-table';
+  buckets: HashNode[][];
+  key: number;               
+  hashIndex: number;        
+  hashFunction: string;    
+}
+export type AlgorithmStep = ArrayStep | GridStep | NodeStep | TableStep | HashTableStep;
 
 export interface AlgorithmInfo {
   slug: string;
