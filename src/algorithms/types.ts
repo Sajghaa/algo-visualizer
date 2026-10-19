@@ -5,7 +5,8 @@ export type AlgorithmCategory =
   | 'tree'
   | 'graph'
   | 'linked-list'
-  | 'dp';
+  | 'dp'
+  | 'hash-table';
 
 export type CellType =
   | 'empty'
