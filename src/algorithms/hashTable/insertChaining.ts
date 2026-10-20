@@ -36,7 +36,7 @@ export const insertChaining: SortingAlgorithm = {
   ],
 
   generateSteps(input: number[]): AlgorithmStep[] {
-    const N = 5; // number of buckets
+    const N = 5; 
     const steps: AlgorithmStep[] = [];
     const buckets: HashNode[][] = Array(N).fill(null).map(() => []);
 
@@ -80,12 +80,12 @@ export const insertChaining: SortingAlgorithm = {
       const bucket = buckets[index];
       const isCollision = bucket.length > 0;
 
-      // Clear previous states
+      
       for (const b of buckets) {
         for (const n of b) n.state = 'default';
       }
 
-      // Append new node
+      
       const newNode: HashNode = {
         value: key,
         state: isCollision ? 'collision' : 'inserted',
