@@ -56,7 +56,7 @@ export const binarySearch: SortingAlgorithm = {
     while (low <= high) {
       const mid = Math.floor((low + high) / 2);
 
-      // Show current range
+      
       steps.push({
         array: [...array],
         highlighted: [mid],
@@ -87,7 +87,7 @@ export const binarySearch: SortingAlgorithm = {
       }
 
       if (array[mid] < searchFor) {
-        // Eliminate left half including mid
+        
         for (let i = low; i <= mid; i++) {
           if (!eliminated.includes(i)) eliminated.push(i);
         }
