@@ -89,7 +89,7 @@ export const bubbleSort: SortingAlgorithm = {
       });
     }
 
-    // Final frame
+    
     steps.push({
       array: [...array],
       highlighted: [],
