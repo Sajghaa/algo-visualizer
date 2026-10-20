@@ -53,7 +53,7 @@ export const interpolationSearch: SortingAlgorithm = {
     let high = n - 1;
 
     while (low <= high && searchFor >= array[low] && searchFor <= array[high]) {
-      // Linear interpolation formula
+      
       const span = array[high] - array[low];
       const pos =
         span === 0
