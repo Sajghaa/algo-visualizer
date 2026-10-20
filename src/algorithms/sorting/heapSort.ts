@@ -62,7 +62,7 @@ export const heapSort: SortingAlgorithm = {
       const right = 2 * i + 2;
       let largest = i;
 
-      // Compare with left child
+    
       if (left < size) {
         steps.push({
           array: [...array],
@@ -80,7 +80,7 @@ export const heapSort: SortingAlgorithm = {
         if (array[left] > array[largest]) largest = left;
       }
 
-      // Compare with right child
+      
       if (right < size) {
         steps.push({
           array: [...array],
@@ -98,7 +98,7 @@ export const heapSort: SortingAlgorithm = {
         if (array[right] > array[largest]) largest = right;
       }
 
-      // Swap if needed and recurse
+      
       if (largest !== i) {
         [array[i], array[largest]] = [array[largest], array[i]];
         steps.push({
@@ -115,7 +115,7 @@ export const heapSort: SortingAlgorithm = {
       }
     }
 
-    // Phase 1: build max heap
+   
     steps.push({
       array: [...array],
       highlighted: [],
@@ -140,7 +140,7 @@ export const heapSort: SortingAlgorithm = {
       lineOfCode: 1,
     });
 
-    // Phase 2: extract max repeatedly
+  
     for (let i = n - 1; i > 0; i--) {
       [array[0], array[i]] = [array[i], array[0]];
       sorted.add(i);
