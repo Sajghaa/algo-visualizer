@@ -31,7 +31,7 @@ export const linearSearch: SortingAlgorithm = {
     const array = [...input];
     const n = array.length;
 
-    // If no target given, pick one that exists (guaranteed found)
+    
     const searchFor = target ?? array[Math.floor(Math.random() * n)];
     let foundIndex = -1;
 
