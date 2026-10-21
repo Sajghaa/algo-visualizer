@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Navigate } from 'react-router-dom'; // <-- Added for routing
+import { Navigate } from 'react-router-dom';
 
 import { ArrayVisualizer } from '../components/ArrayVisualizer';
 import { Controls } from '../components/Controls';
@@ -25,13 +25,7 @@ import type { CellType } from '../algorithms/types';
 export function Workspace() {
   const { user, isAuthenticated, logout } = useAuth();
 
-  // === PROTECTED ROUTE CHECK ===
-  // If not logged in, redirect to the login page immediately
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
 
-  // === Compare Mode state ===
   const [compareMode, setCompareMode] = useState(false);
   const [compareGrid, setCompareGrid] = useState<CellType[][]>(
     () => generateGrid().grid
@@ -54,7 +48,6 @@ export function Workspace() {
   const vizA = useVisualizer(stepsA);
   const vizB = useVisualizer(stepsB);
 
-  // === Single-mode state ===
   const initial = useMemo(
     () => decodeState(window.location.search, allAlgorithms),
     []
@@ -119,6 +112,11 @@ export function Workspace() {
     }
   };
 
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 p-6">
       {/* Header */}
@@ -173,7 +171,7 @@ export function Workspace() {
 
       <div className="mx-auto max-w-6xl space-y-4">
         {compareMode ? (
-          /* ===== COMPARE MODE ===== */
+          
           <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <ComparePane
@@ -224,7 +222,7 @@ export function Workspace() {
             </div>
           </>
         ) : (
-          /* ===== SINGLE MODE ===== */
+         
           <>
             {/* Info card */}
             <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
