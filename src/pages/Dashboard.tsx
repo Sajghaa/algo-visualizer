@@ -7,7 +7,6 @@ export function Dashboard() {
   const { user, logout } = useAuth();
   const { progress } = useProgress();
 
-
   const categories = Array.from(new Set(allAlgorithms.map((a) => a.category)));
 
   return (
