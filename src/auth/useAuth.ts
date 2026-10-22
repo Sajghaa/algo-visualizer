@@ -51,7 +51,7 @@ export function useAuth(): UseAuthReturn {
       const res = await apiLogin(email, password);
       clearProgress();
       persist(res.accessToken, res.user);
-      window.location.reload();
+      
     },
     [persist]
   );
@@ -61,7 +61,7 @@ export function useAuth(): UseAuthReturn {
       const res = await apiRegister(email, password);
       clearProgress();
       persist(res.accessToken, res.user);
-      window.location.reload();
+      
     },
     [persist]
   );
