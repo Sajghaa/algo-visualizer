@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../auth/useAuth';
 
 export function AuthForms() {
   const { login, register } = useAuth();
+  const navigate = useNavigate(); 
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,6 +22,8 @@ export function AuthForms() {
       } else {
         await register(email, password);
       }
+
+      navigate('/dashboard'); 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
