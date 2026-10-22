@@ -14,7 +14,7 @@ export function Landing() {
         <div>
           {isAuthenticated ? (
             <Link
-              to="/app"
+              to="/dashboard"
               className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
             >
               Go to Workspace
