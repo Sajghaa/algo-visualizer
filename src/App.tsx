@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/app:slug" element={<Workspace />} />
+        <Route path="/app/:slug" element={<Workspace />} />
         <Route path="/app" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Landing />} />
       </Routes>
