@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams, Link } from 'react-router-dom';
 
 import { ArrayVisualizer } from '../components/ArrayVisualizer';
 import { Controls } from '../components/Controls';
@@ -24,14 +24,14 @@ import type { CellType } from '../algorithms/types';
 
 export function Workspace() {
   const { user, isAuthenticated, logout } = useAuth();
-
+  const { slug } = useParams();
 
   const [compareMode, setCompareMode] = useState(false);
   const [compareGrid, setCompareGrid] = useState<CellType[][]>(
     () => generateGrid().grid
   );
-  const [compareAIndex, setCompareAIndex] = useState(0); // BFS
-  const [compareBIndex, setCompareBIndex] = useState(3); // A*
+  const [compareAIndex, setCompareAIndex] = useState(0); 
+  const [compareBIndex, setCompareBIndex] = useState(3); 
 
   const compareA = pathfindingAlgorithms[compareAIndex];
   const compareB = pathfindingAlgorithms[compareBIndex];
@@ -57,13 +57,8 @@ export function Workspace() {
   const [inputArray, setInputArray] = useState(
     () => initial?.array ?? generateArray(15)
   );
-  const [algorithmIndex, setAlgorithmIndex] = useState(() => {
-    if (!initial) return 0;
-    const idx = allAlgorithms.findIndex((a) => a.slug === initial.slug);
-    return idx >= 0 ? idx : 0;
-  });
 
-  const algorithm = allAlgorithms[algorithmIndex];
+  const algorithm = allAlgorithms.find((a) => a.slug === slug) || allAlgorithms[0];
 
   const steps = useMemo(
     () => algorithm.generateSteps(inputArray),
@@ -112,7 +107,6 @@ export function Workspace() {
     }
   };
 
-
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
@@ -121,29 +115,17 @@ export function Workspace() {
     <div className="min-h-screen bg-slate-900 p-6">
       {/* Header */}
       <div className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold text-white">Algo Visualizer</h1>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/dashboard"
+            className="rounded-md border border-slate-600 px-3 py-1.5 text-xs text-gray-300 transition hover:bg-slate-700"
+          >
+            ← Dashboard
+          </Link>
+          <h1 className="text-xl font-bold text-white">{algorithm.name}</h1>
+        </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          {!compareMode && (
-            <div>
-              <label htmlFor="algorithm" className="mr-2 text-sm text-gray-400">
-                Algorithm:
-              </label>
-              <select
-                id="algorithm"
-                value={algorithmIndex}
-                onChange={(e) => setAlgorithmIndex(Number(e.target.value))}
-                className="rounded-md border border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {allAlgorithms.map((algo, index) => (
-                  <option key={algo.name} value={index}>
-                    {algo.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
           <button
             onClick={() => setCompareMode((m) => !m)}
             className={`rounded-md px-3 py-1.5 text-xs transition ${
@@ -171,7 +153,6 @@ export function Workspace() {
 
       <div className="mx-auto max-w-6xl space-y-4">
         {compareMode ? (
-          
           <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <ComparePane
@@ -222,7 +203,6 @@ export function Workspace() {
             </div>
           </>
         ) : (
-         
           <>
             {/* Info card */}
             <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
