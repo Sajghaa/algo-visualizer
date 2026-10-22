@@ -30,11 +30,15 @@ export function Workspace() {
   const [compareGrid, setCompareGrid] = useState<CellType[][]>(
     () => generateGrid().grid
   );
-  const [compareAIndex, setCompareAIndex] = useState(0); 
-  const [compareBIndex, setCompareBIndex] = useState(3); 
+  const [compareAIndex, setCompareAIndex] = useState(0);
+  const [compareBIndex, setCompareBIndex] = useState(3);
 
   const compareA = pathfindingAlgorithms[compareAIndex];
   const compareB = pathfindingAlgorithms[compareBIndex];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   const stepsA = useMemo(
     () => compareA.generateSteps([], undefined, compareGrid),
@@ -114,31 +118,34 @@ export function Workspace() {
   return (
     <div className="min-h-screen bg-slate-900 p-6">
       {/* Header */}
-      <div className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
+      <div className="mx-auto mb-8 flex max-w-6xl flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div className="flex items-center gap-4">
           <Link
             to="/dashboard"
-            className="rounded-md border border-slate-600 px-3 py-1.5 text-xs text-gray-300 transition hover:bg-slate-700"
+            className="flex items-center gap-2 text-xl font-bold text-white transition hover:text-indigo-400"
           >
-            ← Dashboard
+            <span className="text-2xl">🧪</span> Algo Visualizer
           </Link>
-          <h1 className="text-xl font-bold text-white">{algorithm.name}</h1>
+          <span className="hidden text-slate-600 sm:inline">|</span>
+          <h1 className="hidden text-lg font-medium text-gray-300 sm:inline">
+            {algorithm.name}
+          </h1>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setCompareMode((m) => !m)}
-            className={`rounded-md px-3 py-1.5 text-xs transition ${
+            className={`rounded-md px-4 py-2 text-xs font-semibold transition ${
               compareMode
-                ? 'bg-indigo-500 text-white'
-                : 'border border-slate-600 text-gray-300 hover:border-indigo-500'
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                : 'border border-slate-600 text-gray-300 hover:border-indigo-500 hover:text-white'
             }`}
           >
-            {compareMode ? '✓ Compare Mode' : '⚖ Compare Mode'}
+            {compareMode ? '✓ Compare Mode On' : '⚖ Compare Mode'}
           </button>
 
-          <div className="flex items-center gap-3 text-sm">
-            <span className="hidden text-gray-400 sm:inline">
+          <div className="flex items-center gap-3 border-l border-slate-700 pl-3">
+            <span className="hidden text-xs text-gray-400 sm:inline">
               {user?.email}
             </span>
             <button
@@ -153,7 +160,13 @@ export function Workspace() {
 
       <div className="mx-auto max-w-6xl space-y-4">
         {compareMode ? (
+
           <>
+            <div className="mb-2 text-center">
+              <h2 className="text-lg font-semibold text-white">Pathfinding Race</h2>
+              <p className="text-sm text-gray-400">Run two algorithms on the exact same grid.</p>
+            </div>
+
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <ComparePane
                 visualizer={vizA}
@@ -172,7 +185,7 @@ export function Workspace() {
             </div>
 
             {/* Shared Controls */}
-            <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
               <button
                 onClick={handlePlayBoth}
                 className="rounded-md bg-indigo-500 px-6 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
@@ -203,6 +216,7 @@ export function Workspace() {
             </div>
           </>
         ) : (
+     
           <>
             {/* Info card */}
             <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
@@ -233,7 +247,7 @@ export function Workspace() {
 
             {/* Main grid: visualizer + pseudocode */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-              <div className="rounded-lg bg-slate-800 p-6 lg:col-span-2">
+              <div className="rounded-lg bg-slate-800 p-6 shadow-inner shadow-black/20 lg:col-span-2">
                 {visualizer.currentStep.kind === 'grid' ? (
                   <GridVisualizer step={visualizer.currentStep} />
                 ) : visualizer.currentStep.kind === 'nodes' ? (
@@ -279,15 +293,17 @@ export function Workspace() {
               </div>
             </div>
 
-            <LearnPanel algorithm={algorithm} />
-
-            <QuizPanel
-              algorithm={algorithm}
-              allAlgorithms={allAlgorithms}
-              onComplete={(score, total) =>
-                recordQuizAttempt(algorithm.slug, score, total)
-              }
-            />
+            {/* Learning section: separated from the tool */}
+            <div className="mt-8 space-y-4">
+              <LearnPanel algorithm={algorithm} />
+              <QuizPanel
+                algorithm={algorithm}
+                allAlgorithms={allAlgorithms}
+                onComplete={(score, total) =>
+                  recordQuizAttempt(algorithm.slug, score, total)
+                }
+              />
+            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
               <label htmlFor="size" className="text-sm text-gray-300">
