@@ -75,6 +75,14 @@ python -m venv .venv
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 
+## 🧪 Testing
+
+- **Frontend:** Vitest + React Testing Library
+- **Backend:** Pytest + FastAPI TestClient
+
+Run frontend tests: `npm test`
+Run backend tests: `cd backend && pytest`
+
 # Frontend (new terminal)
 npm install
 npm run dev
