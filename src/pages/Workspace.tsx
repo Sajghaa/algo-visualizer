@@ -33,6 +33,9 @@ export function Workspace() {
   const [compareAIndex, setCompareAIndex] = useState(0);
   const [compareBIndex, setCompareBIndex] = useState(3);
 
+  const [customInput, setCustomInput] = useState('');
+  const [inputError, setInputError] = useState<string | null>(null);
+
   const compareA = pathfindingAlgorithms[compareAIndex];
   const compareB = pathfindingAlgorithms[compareBIndex];
 
@@ -57,7 +60,9 @@ export function Workspace() {
     []
   );
 
-  const [arraySize, setArraySize] = useState(initial?.array.length ?? 15);
+  // Random size is ONLY used when clicking "Generate Random"
+  const [randomSize, setRandomSize] = useState(15); 
+  
   const [inputArray, setInputArray] = useState(
     () => initial?.array ?? generateArray(15)
   );
@@ -92,7 +97,9 @@ export function Workspace() {
   }, [algorithm.slug, inputArray]);
 
   const handleNewArray = () => {
-    setInputArray(generateArray(arraySize));
+    // Safety: Guarantee at least 5 items for a good visualization
+    const safeSize = Math.max(5, randomSize);
+    setInputArray(generateArray(safeSize));
   };
 
   const handleNewGrid = () => {
@@ -108,6 +115,33 @@ export function Workspace() {
     } else {
       vizA.play();
       vizB.play();
+    }
+  };
+
+  const handleApplyCustomInput = () => {
+    try {
+      const cleanStr = customInput.replace(/[[\]]/g, '');
+      const parsed = cleanStr
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map(Number);
+
+      if (parsed.length === 0) {
+        throw new Error('Please enter at least one number.');
+      }
+      if (parsed.length > 50) {
+        throw new Error('Maximum 50 elements allowed.');
+      }
+      if (parsed.some((n) => isNaN(n) || n < 1)) {
+        throw new Error('Please enter positive numbers separated by commas (e.g., 5, 2, 9, 1).');
+      }
+
+      setInputArray(parsed);
+      setInputError(null);
+      setCustomInput(''); 
+    } catch (err) {
+      setInputError(err instanceof Error ? err.message : 'Invalid input');
     }
   };
 
@@ -160,7 +194,6 @@ export function Workspace() {
 
       <div className="mx-auto max-w-6xl space-y-4">
         {compareMode ? (
-
           <>
             <div className="mb-2 text-center">
               <h2 className="text-lg font-semibold text-white">Pathfinding Race</h2>
@@ -184,7 +217,6 @@ export function Workspace() {
               />
             </div>
 
-            {/* Shared Controls */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
               <button
                 onClick={handlePlayBoth}
@@ -209,16 +241,12 @@ export function Workspace() {
               </button>
             </div>
 
-            {/* Info text */}
             <div className="rounded-lg bg-slate-800 p-4 text-center text-sm text-gray-400">
               Watch both algorithms run on the <span className="text-white">same grid</span>.
-              Same start, same walls, same end.
             </div>
           </>
         ) : (
-     
           <>
-            {/* Info card */}
             <div className="rounded-lg bg-slate-800 p-4 text-sm text-gray-300">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -245,7 +273,6 @@ export function Workspace() {
               </div>
             </div>
 
-            {/* Main grid: visualizer + pseudocode */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <div className="rounded-lg bg-slate-800 p-6 shadow-inner shadow-black/20 lg:col-span-2">
                 {visualizer.currentStep.kind === 'grid' ? (
@@ -293,7 +320,6 @@ export function Workspace() {
               </div>
             </div>
 
-            {/* Learning section: separated from the tool */}
             <div className="mt-8 space-y-4">
               <LearnPanel algorithm={algorithm} />
               <QuizPanel
@@ -305,27 +331,70 @@ export function Workspace() {
               />
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg bg-slate-800 p-4">
-              <label htmlFor="size" className="text-sm text-gray-300">
-                {algorithm.category === 'pathfinding' ? 'Grid size' : `Array size: ${arraySize}`}
-              </label>
+            {/* Bottom Controls */}
+            <div className="flex flex-col gap-6 rounded-lg bg-slate-800 p-6">
+              
+              {/* CURRENT ARRAY INFO */}
+              <div className="text-center text-sm text-gray-400">
+                Current Array Length: <span className="font-bold text-white">{inputArray.length}</span>
+              </div>
+
+              {/* Custom Input Row */}
               {algorithm.category !== 'pathfinding' && (
-                <input
-                  id="size"
-                  type="range"
-                  min={5}
-                  max={50}
-                  value={arraySize}
-                  onChange={(e) => setArraySize(Number(e.target.value))}
-                  className="w-48 accent-indigo-500"
-                />
+                <div className="flex flex-col items-center gap-2">
+                  <label className="text-sm font-semibold text-gray-300">
+                    Custom Input
+                  </label>
+                  <div className="flex w-full max-w-xl items-center gap-2">
+                    <input
+                      type="text"
+                      placeholder="e.g. 5, 2, 9, 1, 7"
+                      value={customInput}
+                      onChange={(e) => setCustomInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleApplyCustomInput()}
+                      className="flex-1 rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-sm text-white focus:border-indigo-500 focus:outline-none"
+                    />
+                    <button
+                      onClick={handleApplyCustomInput}
+                      className="rounded-md bg-slate-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-500"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {inputError && (
+                    <p className="text-xs text-red-400">{inputError}</p>
+                  )}
+                </div>
               )}
-              <button
-                onClick={handleNewArray}
-                className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
-              >
-                🎲 New {algorithm.category === 'pathfinding' ? 'Grid' : 'Array'}
-              </button>
+
+              {/* Divider */}
+              <div className="mx-auto w-full max-w-xl border-t border-slate-700" />
+
+              {/* Random Generation Row */}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <label htmlFor="size" className="text-sm text-gray-300">
+                  {algorithm.category === 'pathfinding' ? 'Grid size' : `Random Generator Size: ${randomSize}`}
+                </label>
+
+                {algorithm.category !== 'pathfinding' && (
+                  <input
+                    id="size"
+                    type="range"
+                    min={5}
+                    max={50}
+                    value={randomSize}
+                    onChange={(e) => setRandomSize(Number(e.target.value))}
+                    className="w-48 accent-indigo-500"
+                  />
+                )}
+
+                <button
+                  onClick={handleNewArray}
+                  className="rounded-md bg-indigo-500 px-6 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
+                >
+                  🎲 Generate Random Array
+                </button>
+              </div>
             </div>
           </>
         )}
