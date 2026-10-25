@@ -6,7 +6,7 @@ interface ArrayVisualizerProps {
 }
 
 export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
-  const { array, highlighted, sorted, eliminated ,pointers, concept, target } = step;
+  const { array, highlighted, sorted, eliminated, pointers, concept, target } = step;
 
   const getBarColor = (index: number): string => {
     if (sorted.includes(index)) return 'bg-green-500';
@@ -41,6 +41,7 @@ export function ArrayVisualizer({ step, maxValue }: ArrayVisualizerProps) {
             <div
               key={index}
               className="relative flex h-full flex-1 flex-col justify-end"
+              style={{ maxWidth: '60px' }} // <-- THE FIX: Prevents single bars from stretching
             >
               {pointers &&
                 Object.entries(pointers).some(([, idx]) => idx === index) && (
