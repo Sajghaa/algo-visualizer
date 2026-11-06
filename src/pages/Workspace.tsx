@@ -60,7 +60,6 @@ export function Workspace() {
     []
   );
 
-  // Random size is ONLY used when clicking "Generate Random"
   const [randomSize, setRandomSize] = useState(15); 
   
   const [inputArray, setInputArray] = useState(
@@ -97,7 +96,7 @@ export function Workspace() {
   }, [algorithm.slug, inputArray]);
 
   const handleNewArray = () => {
-    // Safety: Guarantee at least 5 items for a good visualization
+
     const safeSize = Math.max(5, randomSize);
     setInputArray(generateArray(safeSize));
   };
