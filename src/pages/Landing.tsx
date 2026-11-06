@@ -1,8 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth';
+import { ArrayVisualizer } from '../components/ArrayVisualizer';
+import { bubbleSort } from '../algorithms/sorting/bubbleSort';
+import type { ArrayStep } from '../algorithms/types';
+
+
+const DEMO_ARRAY = [45, 12, 89, 33, 67, 21, 90, 54, 78];
+
+const DEMO_STEPS = bubbleSort.generateSteps(DEMO_ARRAY);
 
 export function Landing() {
   const { isAuthenticated } = useAuth();
+  const [demoIndex, setDemoIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDemoIndex((prev) => (prev + 1) % DEMO_STEPS.length);
+    }, 250); 
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentDemoStep = DEMO_STEPS[demoIndex] as ArrayStep;
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -41,7 +60,7 @@ export function Landing() {
         
         <div className="flex flex-wrap justify-center gap-4">
           <Link
-            to={isAuthenticated ? "/app" : "/login"}
+            to={isAuthenticated ? "/dashboard" : "/login"}
             className="rounded-md bg-indigo-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-indigo-400"
           >
             Start Learning →
@@ -56,28 +75,38 @@ export function Landing() {
           </a>
         </div>
 
-        {/* Visual Mockup (Using CSS to fake a screenshot for now) */}
+        {/* LIVE Visual Mockup */}
         <div className="mt-20 rounded-xl border border-slate-700 bg-slate-800 p-2 shadow-2xl">
           <div className="rounded-lg bg-slate-900 p-8">
+            
+            {/* Fake Window Header (Only if you want it to look like an app) */}
             <div className="mb-6 flex justify-center gap-2">
               <div className="h-2 w-16 rounded-full bg-indigo-500"></div>
               <div className="h-2 w-16 rounded-full bg-slate-700"></div>
               <div className="h-2 w-16 rounded-full bg-slate-700"></div>
             </div>
-            <div className="flex h-48 items-end justify-center gap-1">
-              {[40, 70, 20, 90, 50, 80, 30, 100, 60].map((height, i) => (
-                <div
-                  key={i}
-                  className={`w-8 rounded-t-sm transition-all ${
-                    height === 100 ? 'bg-green-500' : height === 90 ? 'bg-yellow-400' : 'bg-indigo-500'
-                  }`}
-                  style={{ height: `${height}%` }}
-                />
-              ))}
+
+            {/* The REAL Array Visualizer */}
+            <div className="pointer-events-none"> 
+              {/* pointer-events-none prevents users from clicking the fake buttons if any */}
+              <ArrayVisualizer 
+                step={currentDemoStep} 
+                maxValue={Math.max(...DEMO_ARRAY)} 
+              />
             </div>
-            <div className="mt-8 text-center font-mono text-sm text-gray-400">
-              Sorting: Bubble Sort | Step 14 / 32
+
+            {/* Fake Controls */}
+            <div className="mt-8 flex flex-col items-center gap-2">
+              <div className="flex gap-2">
+                <div className="rounded bg-slate-800 px-4 py-1 text-sm font-semibold text-gray-400">Step Back</div>
+                <div className="rounded bg-indigo-500 px-4 py-1 text-sm font-semibold text-white">Play</div>
+                <div className="rounded bg-slate-800 px-4 py-1 text-sm font-semibold text-gray-400">Step Forward</div>
+              </div>
+              <div className="mt-2 text-center font-mono text-sm text-gray-400">
+                Sorting: Bubble Sort | Step {demoIndex + 1} / {DEMO_STEPS.length}
+              </div>
             </div>
+
           </div>
         </div>
 
