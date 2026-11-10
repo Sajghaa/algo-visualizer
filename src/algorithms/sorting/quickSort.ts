@@ -38,6 +38,23 @@ export const quickSort: SortingAlgorithm = {
     '  return i + 1',
   ],
 
+  pseudocodeExplanations: [
+    "Entry point for the recursive Quick Sort function.",
+    "Base case: if the range has 1 or 0 elements, it's already sorted.",
+    "Partition the array around a pivot. This returns the final index of the pivot.",
+    "Recursively sort the elements to the left of the pivot (they are all smaller).",
+    "Recursively sort the elements to the right of the pivot (they are all larger).",
+    "The partition function begins here.",
+    "We choose the last element as the pivot.",
+    "`i` tracks the 'wall' where elements smaller than the pivot end.",
+    "Loop through the array, comparing each element to the pivot.",
+    "If the current element is smaller than or equal to the pivot...",
+    "Move the wall forward...",
+    "...and swap the smaller element to the left side of the wall.",
+    "Finally, swap the pivot into its correct place, right after all the smaller elements.",
+    "Return the pivot's index so we can split the array into left and right halves."
+  ],
+
   generateSteps(input: number[]): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
     const array = [...input];
