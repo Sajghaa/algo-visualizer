@@ -135,6 +135,7 @@ export interface AlgorithmInfo {
   pseudocode: string[];
   keyIdeas: string[];
   whenToUse: string;
+  pseudocodeExplanations?: string[];
 }
 
 export interface SortingAlgorithm extends AlgorithmInfo {
