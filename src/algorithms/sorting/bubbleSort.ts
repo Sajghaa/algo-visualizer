@@ -32,6 +32,7 @@ export const bubbleSort: SortingAlgorithm = {
     "...swap them! This pushes larger numbers to the right.",
     "After one full pass, the largest remaining element is guaranteed to be at the end, so we mark it as sorted."
   ],
+
   
   generateSteps(input: number[]): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
