@@ -25,6 +25,14 @@ export const bubbleSort: SortingAlgorithm = {
     '  mark array[n-i-1] as sorted',
   ],
 
+  pseudocodeExplanations: [
+    "Outer loop: We need to do this pass 'n' times to guarantee everything is sorted.",
+    "Inner loop: We compare adjacent elements. Notice we do 'n-i-2' because the last 'i' elements are already sorted.",
+    "Compare the current element with the next one. If the left is bigger than the right...",
+    "...swap them! This pushes larger numbers to the right.",
+    "After one full pass, the largest remaining element is guaranteed to be at the end, so we mark it as sorted."
+  ],
+  
   generateSteps(input: number[]): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
     const array = [...input];
