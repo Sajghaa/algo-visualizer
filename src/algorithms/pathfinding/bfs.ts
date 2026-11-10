@@ -39,6 +39,17 @@ export const bfs: SortingAlgorithm = {
     '  return no path',
   ],
 
+  pseudocodeExplanations: [
+    "Entry point for Breadth-First Search.",
+    "Initialize a queue with the start node, and a set to track visited cells.",
+    "Keep exploring as long as there are cells in the queue.",
+    "Dequeue the oldest cell (FIFO). BFS explores level by level.",
+    "If we reached the end, reconstruct and return the path.",
+    "Otherwise, look at the current cell's neighbors (up, down, left, right).",
+    "Check if the neighbor is inside the grid, not a wall, and not already visited.",
+    "Mark the neighbor as visited, record where we came from, and add it to the queue."
+  ],
+
   generateSteps(_input: number[], _target?: number, providedGrid?: CellType[][]): AlgorithmStep[] {
     const rows = 15;
     const cols = 25;
