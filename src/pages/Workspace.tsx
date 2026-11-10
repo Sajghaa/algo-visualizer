@@ -315,6 +315,7 @@ export function Workspace() {
                 <PseudocodePanel
                   pseudocode={algorithm.pseudocode}
                   activeLine={visualizer.currentStep.lineOfCode}
+                  explanations={algorithm.pseudocodeExplanations}
                 />
               </div>
             </div>
