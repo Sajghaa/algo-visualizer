@@ -30,6 +30,14 @@ export const fibonacci: SortingAlgorithm = {
     '  return dp[n]',
   ],
 
+  pseudocodeExplanations: [
+    "Entry point for Fibonacci.",
+    "Base cases: Fibonacci of 0 is 0, and Fibonacci of 1 is 1.",
+    "Loop from 2 up to n to fill the table bottom-up.",
+    "The core recurrence: each number is the sum of the previous two.",
+    "Return the final answer."
+  ],
+
   generateSteps(input: number[]): AlgorithmStep[] {
     const n = Math.min(Math.max(input.length, 5), 12); // clamp to a sensible range
     const steps: AlgorithmStep[] = [];
