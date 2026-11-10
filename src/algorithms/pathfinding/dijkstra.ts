@@ -37,6 +37,19 @@ export const dijkstra: SortingAlgorithm = {
     '        heap.push((newDist, neighbor))',
   ],
 
+    pseudocodeExplanations: [
+    "Entry point for Dijkstra's algorithm.",
+    "Initialize distances to Infinity, except the start which is 0. Add start to the priority queue.",
+    "Keep processing until the priority queue is empty.",
+    "Pop the cell with the smallest known distance (this is the magic of the min-heap).",
+    "If we reached the end, reconstruct the shortest path.",
+    "If we popped an old, stale entry, ignore it and continue.",
+    "Look at all 4 neighbors.",
+    "Calculate the new distance to this neighbor.",
+    "If we found a shorter path to this neighbor...",
+    "...update its distance, record its parent, and push it into the priority queue."
+  ],
+
   generateSteps(_input: number[]): AlgorithmStep[] {
     const rows = 15;
     const cols = 25;
