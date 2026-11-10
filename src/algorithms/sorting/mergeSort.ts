@@ -36,6 +36,19 @@ export const mergeSort: SortingAlgorithm = {
     '  copy remaining elements from either half',
   ],
 
+  pseudocodeExplanations: [
+    "Entry point for the recursive function. We pass in the array and the range we are sorting.",
+    "Base case: if the left index is greater than or equal to the right, the sub-array has 1 or 0 items, meaning it's already sorted.",
+    "Find the middle point to split the array into two halves.",
+    "Recursively sort the left half.",
+    "Recursively sort the right half.",
+    "Merge the two sorted halves back together in order.",
+    "The merge step begins: we compare elements from the left and right halves.",
+    "If the left element is smaller (or equal, to keep it stable), we pick it.",
+    "Write the smaller element into the main array.",
+    "If we run out of elements in one half, we just copy the rest of the other half over."
+  ],
+
   generateSteps(input: number[]): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
     const array = [...input];
