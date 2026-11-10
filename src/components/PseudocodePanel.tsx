@@ -3,9 +3,10 @@ import { useEffect, useRef } from 'react';
 interface PseudocodePanelProps {
   pseudocode: string[];
   activeLine?: number;
+  explanations?: string[];
 }
 
-export function PseudocodePanel({ pseudocode, activeLine }: PseudocodePanelProps) {
+export function PseudocodePanel({ pseudocode, activeLine, explanations }: PseudocodePanelProps) {
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -48,6 +49,16 @@ export function PseudocodePanel({ pseudocode, activeLine }: PseudocodePanelProps
           );
         })}
       </div>
+     {explanations && activeLine !== undefined && explanations[activeLine] && (
+        <div className="mt-4 rounded-md border border-indigo-500/30 bg-indigo-500/10 p-3">
+          <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-1">
+            What this line means
+          </p>
+          <p className="text-sm text-gray-200">
+            {explanations[activeLine]}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
