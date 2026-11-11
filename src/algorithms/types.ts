@@ -132,6 +132,8 @@ export interface AlgorithmInfo {
   spaceComplexity: string;
   stable: boolean;
   category: AlgorithmCategory;
+  howItWorks?: string[];
+  traps?: string[],
   pseudocode: string[];
   keyIdeas: string[];
   whenToUse: string;
