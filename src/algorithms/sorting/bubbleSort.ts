@@ -4,6 +4,19 @@ export const bubbleSort: SortingAlgorithm = {
   slug: 'bubble-sort',
   name: 'Bubble Sort',
   description: 'Repeatedly swaps adjacent elements that are out of order.',
+  howItWorks: [
+    "Start at the beginning of the array.",
+    "Compare the first two elements. If the first is larger than the second, swap them.",
+    "Move one step to the right and compare the next two elements. Repeat this until you reach the end of the array.",
+    "After one full pass, the largest element is guaranteed to be at the very end (it 'bubbled' up).",
+    "Repeat the process for the remaining unsorted elements, ignoring the sorted ones at the end.",
+    "Stop when a full pass happens with zero swaps, meaning the array is perfectly sorted."
+  ],
+  traps: [
+    "Bubble sort is extremely slow for large datasets (O(n²)). Never use it in production.",
+    "If you don't add a 'swapped' flag to break early, it will do unnecessary passes even if the array is already sorted.",
+    "It is a 'stable' sort, meaning identical numbers keep their original relative order."
+  ],
   timeComplexity: 'O(n²)',
   spaceComplexity: 'O(1)',
   stable: true,
@@ -33,6 +46,7 @@ export const bubbleSort: SortingAlgorithm = {
     "After one full pass, the largest remaining element is guaranteed to be at the end, so we mark it as sorted."
   ],
 
+  
   
   generateSteps(input: number[]): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
