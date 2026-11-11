@@ -4,6 +4,20 @@ export const heapSort: SortingAlgorithm = {
   slug: 'heap-sort',
   name: 'Heap Sort',
   description: 'Builds a max-heap from the array, then repeatedly extracts the maximum.',
+    howItWorks: [
+    "Treat the array as a binary tree. Build a 'Max-Heap', meaning every parent node is larger than its children.",
+    "The largest element is now at the root (index 0). Swap it with the last element in the array.",
+    "Shrink the heap size by 1 (ignoring the sorted element at the end).",
+    "'Sift down' the new root element to restore the Max-Heap property.",
+    "Repeat this process of swapping the root and sifting down until the heap is empty."
+  ],
+  
+  traps: [
+    "It is NOT stable. The long-distance swaps easily scramble the order of identical elements.",
+    "The tree jumps around in memory, which leads to poor CPU cache performance compared to Quick Sort.",
+    "Even though it guarantees O(n log n) time, it is usually slower in practice than a well-implemented Quick Sort.",
+    "It is perfectly in-place, requiring O(1) extra memory."
+  ],
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(1)',
   stable: false,
