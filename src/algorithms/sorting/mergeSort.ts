@@ -4,6 +4,20 @@ export const mergeSort: SortingAlgorithm = {
   slug: 'merge-sort',
   name: 'Merge Sort',
   description: 'Recursively divides the array, sorts each half, then merges them back together.',
+  howItWorks: [
+    "Divide the array into two equal halves.",
+    "Recursively split those halves until you have sub-arrays of just 1 element (which are trivially sorted).",
+    "Merge two sorted sub-arrays back together: compare the first element of each and take the smaller one.",
+    "Repeat the merge step all the way back up the recursion tree until the whole array is rebuilt.",
+    "The result is a fully sorted array."
+  ],
+  
+  traps: [
+    "Requires O(n) extra space for the temporary arrays used during merging. It is NOT an in-place sort.",
+    "Because it creates new arrays during merging, it can be slower than Quick Sort on small datasets.",
+    "It is a 'stable' sort, meaning identical numbers keep their original relative order.",
+    "The merge step must handle leftover elements: if one sub-array runs out, copy the rest of the other."
+  ],
   timeComplexity: 'O(n log n)',
   spaceComplexity: 'O(n)',
   stable: true,
