@@ -4,6 +4,21 @@ export const quickSort: SortingAlgorithm = {
   slug: 'quick-sort',
   name: 'Quick Sort',
   description: 'Picks a pivot, partitions the array around it, and recursively sorts each side.',
+  howItWorks: [
+    "Choose a 'pivot' element from the array (usually the last element).",
+    "Partition the array: move all elements smaller than the pivot to the left, and all larger elements to the right.",
+    "The pivot is now in its correct, final sorted position.",
+    "Recursively apply this same process to the left sub-array and the right sub-array.",
+    "The recursion stops when sub-arrays have 0 or 1 elements."
+  ],
+  
+  traps: [
+    "Worst-case time complexity is O(n²) if the pivot is always the smallest or largest element (e.g., an already sorted array).",
+    "It is NOT stable. The partitioning process can swap identical elements out of order.",
+    "To avoid the O(n²) worst case, real-world implementations use 'Randomized Quick Sort' or 'Median-of-Three' pivot selection.",
+    "Because it's in-place, it's very memory efficient (O(log n) stack space) and usually the fastest sorting algorithm in practice."
+  ],
+
   timeComplexity: 'O(n log n) average, O(n²) worst',
   spaceComplexity: 'O(log n) — recursion stack',
   stable: false,
