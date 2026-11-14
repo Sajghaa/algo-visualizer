@@ -17,6 +17,28 @@ export const avlInsert: SortingAlgorithm = {
   slug: 'avl-insert',
   name: 'AVL Insert',
   description: 'BST insert that rebalances itself with rotations. Always O(log n) depth.',
+  howItWorks: [
+    "Perform a standard BST insert.",
+    "Walk back up the tree from the newly inserted node.",
+    "Update the height (and balance factor) of each ancestor.",
+    "If a node's balance factor becomes greater than 1 or less than -1, it's unbalanced.",
+    "Perform the appropriate rotation (LL, RR, LR, or RL) to rebalance the tree."
+  ],
+  traps: [
+    "The four rotation cases (LL, RR, LR, RL) are easy to mix up. Always check the balance factor of the child node to distinguish between them.",
+    "AVL trees require more rotations on insert/delete than Red-Black trees, making writes slightly slower.",
+    "In AVL, the height difference between left and right subtrees can never be more than 1."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for AVL Insertion.",
+    "First, insert the node exactly like a standard BST.",
+    "Update the heights of the ancestor nodes on the way back up.",
+    "Calculate the balance factor (Height(Left) - Height(Right)).",
+    "LL Case: Left-Left imbalance. Fix with a single Right Rotation.",
+    "RR Case: Right-Right imbalance. Fix with a single Left Rotation.",
+    "LR Case: Left-Right imbalance. Fix with a Left Rotation on the child, then a Right Rotation on the node.",
+    "RL Case: Right-Left imbalance. Fix with a Right Rotation on the child, then a Left Rotation on the node."
+  ],
   timeComplexity: 'O(log n)',
   spaceComplexity: 'O(1) iterative',
   stable: false,
