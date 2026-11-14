@@ -9,6 +9,27 @@ export const cycleDetection: SortingAlgorithm = {
   slug: 'cycle-detection',
   name: "Floyd's Cycle Detection",
   description: 'Two pointers at different speeds — if they meet, there is a cycle.',
+  howItWorks: [
+    "Use two pointers: a 'slow' tortoise that moves 1 step, and a 'fast' hare that moves 2 steps.",
+    "Start both pointers at the head.",
+    "Move the pointers forward.",
+    "If the fast pointer hits null, there is no cycle.",
+    "If the fast pointer ever catches up and lands on the exact same node as the slow pointer, there IS a cycle."
+  ],
+  traps: [
+    "Make sure to check `fast.next` and `fast.next.next` for null to avoid crashing.",
+    "Floyd's algorithm detects a cycle but doesn't immediately tell you *where* the cycle starts.",
+    "It uses O(1) space, unlike using a HashSet which uses O(n) space."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for cycle detection.",
+    "Both pointers start at the head of the list.",
+    "Keep moving as long as the fast pointer and its next node exist.",
+    "The slow pointer moves one step.",
+    "The fast pointer moves two steps.",
+    "If they ever land on the same node, they are in a loop!",
+    "If we reach the end of the list, there is no cycle."
+  ],
   timeComplexity: 'O(n)',
   spaceComplexity: 'O(1)',
   stable: false,
