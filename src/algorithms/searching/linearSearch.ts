@@ -4,6 +4,25 @@ export const linearSearch: SortingAlgorithm = {
   slug: 'linear-search',
   name: 'Linear Search',
   description: 'Scans each element from left to right until the target is found.',
+  howItWorks: [
+    "Start at the first element of the array.",
+    "Compare the current element to the target value.",
+    "If it matches, you're done! Return the index.",
+    "If it doesn't match, move to the next element and repeat.",
+    "If you reach the end of the array without finding it, the target isn't there."
+  ],
+  traps: [
+    "It is O(n), meaning it gets linearly slower as the array grows.",
+    "It works on unsorted arrays, which is its only advantage over Binary Search.",
+    "Make sure you handle edge cases: empty arrays or targets that don't exist."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for Linear Search.",
+    "Loop through every element in the array from start to finish.",
+    "Check if the current element is the one we want.",
+    "If it is, return the index immediately.",
+    "If the loop finishes without finding it, return -1 (not found)."
+  ],
   timeComplexity: 'O(n)',
   spaceComplexity: 'O(1)',
   stable: false,
