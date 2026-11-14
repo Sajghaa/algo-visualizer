@@ -9,6 +9,30 @@ export const reverseLinkedList: SortingAlgorithm = {
   slug: 'reverse-linked-list',
   name: 'Reverse Linked List',
   description: 'Reverses a singly linked list in place by rewiring next pointers.',
+  howItWorks: [
+    "Use three pointers: `prev` (starts as null), `current` (starts at head), and `next`.",
+    "Save `current.next` into the `next` pointer so we don't lose the rest of the list.",
+    "Reverse the link: point `current.next` backwards to `prev`.",
+    "Move `prev` forward to `current`.",
+    "Move `current` forward to `next`.",
+    "Repeat until `current` is null. The new head is `prev`."
+  ],
+  traps: [
+    "If you don't save `next` before overwriting `current.next`, you will lose the rest of the list forever.",
+    "Make sure to update the head pointer to `prev` at the very end.",
+    "It takes O(n) time and O(1) space."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for reversing the list.",
+    "Set prev to null because the original head will become the new tail.",
+    "Start our current pointer at the head.",
+    "Keep going until we reach the end of the list.",
+    "Temporarily save the next node so we don't lose it.",
+    "Reverse the current node's pointer to point backwards.",
+    "Move prev one step forward.",
+    "Move current one step forward.",
+    "Return prev, which is now the new head of the reversed list."
+  ],
   timeComplexity: 'O(n)',
   spaceComplexity: 'O(1)',
   stable: false,
