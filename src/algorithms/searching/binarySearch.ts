@@ -4,6 +4,28 @@ export const binarySearch: SortingAlgorithm = {
   slug: 'binary-search',
   name: 'Binary Search',
   description: 'Repeatedly halves a sorted array to find the target in O(log n).',
+  howItWorks: [
+    "Find the middle element of the sorted array.",
+    "If it matches the target, you're done.",
+    "If the target is smaller, ignore the right half and search the left half.",
+    "If the target is larger, ignore the left half and search the right half.",
+    "Repeat until the target is found or the search space is empty."
+  ],
+  traps: [
+    "The array MUST be sorted first. If it's not, Binary Search will fail.",
+    "Calculate the middle with `low + (high - low) / 2` to avoid integer overflow in other languages (not a big issue in JS, but good practice).",
+    "Be very careful with your while loop condition (`low <= high`). Using `<` will miss the last element."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for Binary Search.",
+    "Initialize two pointers at the start and end of the array.",
+    "Keep searching as long as the left pointer hasn't passed the right pointer.",
+    "Calculate the middle index.",
+    "If the middle element is the target, we found it!",
+    "If the target is larger, discard the left half.",
+    "If the target is smaller, discard the right half.",
+    "If the loop ends, the target isn't in the array."
+  ],
   timeComplexity: 'O(log n)',
   spaceComplexity: 'O(1)',
   stable: false,
