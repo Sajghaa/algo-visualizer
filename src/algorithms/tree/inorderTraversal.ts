@@ -12,6 +12,24 @@ export const inorderTraversal: SortingAlgorithm = {
   slug: 'inorder-traversal',
   name: 'Inorder Traversal',
   description: 'Visits left subtree → node → right subtree. Outputs a BST in sorted order.',
+  howItWorks: [
+    "Recursively traverse the left subtree.",
+    "Visit the current node (add it to the result).",
+    "Recursively traverse the right subtree.",
+    "Because of the BST property, this visits nodes in perfectly sorted order."
+  ],
+  traps: [
+    "This relies on the tree being a valid BST. If the BST property is broken, the output won't be sorted.",
+    "If the tree is highly unbalanced, recursion could cause a Stack Overflow.",
+    "In-order traversal gives ascending order. Reverse in-order (right -> node -> left) gives descending."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for in-order traversal.",
+    "Base case: if the node is null, stop.",
+    "Recurse into the left child.",
+    "Process the current node (e.g., print or store the value).",
+    "Recurse into the right child."
+  ],
   timeComplexity: 'O(n)',
   spaceComplexity: 'O(h) — recursion depth',
   stable: false,
