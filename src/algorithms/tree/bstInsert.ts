@@ -9,6 +9,29 @@ export const bstInsert: SortingAlgorithm = {
   slug: 'bst-insert',
   name: 'BST Insert',
   description: 'Builds a Binary Search Tree by inserting values one at a time.',
+  howItWorks: [
+    "If the tree is empty, the new node becomes the root.",
+    "Compare the new value to the root.",
+    "If it's smaller, go to the left child. If it's larger, go right.",
+    "Repeat this comparison down the tree until you find an empty spot.",
+    "Insert the new node there."
+  ],
+  traps: [
+    "If you insert sorted data (e.g., 1, 2, 3, 4, 5), the tree becomes a straight line (a linked list), making search O(n).",
+    "Duplicate values can either be rejected or tracked with a count. This implementation rejects them.",
+    "You must maintain the BST property: left child < parent < right child."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for BST insertion.",
+    "If the tree is empty, create a new root node.",
+    "Start at the root and walk down.",
+    "Keep looping until we find an empty spot.",
+    "If the value is smaller than the current node...",
+    "...check the left side. If it's empty, insert here. Otherwise, move left.",
+    "If the value is larger than the current node...",
+    "...check the right side. If it's empty, insert here. Otherwise, move right.",
+    "If the value matches the current node, it's a duplicate. Ignore it."
+  ],
   timeComplexity: 'O(n log n) average',
   spaceComplexity: 'O(n)',
   stable: false,
