@@ -8,6 +8,30 @@ export const knapsack: SortingAlgorithm = {
   slug: 'knapsack',
   name: '0/1 Knapsack',
   description: 'Maximizes value given a weight limit — each item taken or not taken.',
+  howItWorks: [
+    "Create a 2D grid where rows are the items, and columns are the available weight capacity.",
+    "For each item, check if its weight is less than or equal to the current capacity.",
+    "If the item is too heavy, copy the value from the row above (skip the item).",
+    "If it fits, choose the maximum between skipping it or taking it (and adding its value to the remaining capacity).",
+    "The bottom-right cell is the maximum value you can carry."
+  ],
+  traps: [
+    "0/1 Knapsack means you either take the whole item or none of it. (Fractional Knapsack, where you can take half an item, is solved greedily instead).",
+    "Make sure you loop through capacities from 1 to W correctly.",
+    "The DP table size is O(n*W), which is pseudo-polynomial."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for Knapsack.",
+    "Initialize a 2D table with zeros.",
+    "Loop through each item.",
+    "Loop through each capacity from 1 to W.",
+    "If the item weighs more than the current capacity...",
+    "...we can't take it. Copy the value from the previous row.",
+    "Otherwise, find the max of two choices:",
+    "1. Skipping the item (value from top row).",
+    "2. Taking the item (item value + value of remaining capacity).",
+    "Return the final cell."
+  ],
   timeComplexity: 'O(n · W)',
   spaceComplexity: 'O(n · W)',
   stable: false,
