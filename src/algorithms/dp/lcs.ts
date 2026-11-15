@@ -8,6 +8,29 @@ export const lcs: SortingAlgorithm = {
   slug: 'lcs',
   name: 'Longest Common Subsequence',
   description: 'Fills a 2D table where each cell is the LCS length of two prefixes.',
+  howItWorks: [
+    "Create a 2D grid where rows represent prefixes of String A, and columns represent prefixes of String B.",
+    "Fill the first row and first column with zeros (an empty string has an LCS of 0).",
+    "Compare characters at each cell. If they match, the value is 1 + the diagonal top-left cell.",
+    "If they don't match, take the maximum of the cell above or the cell to the left.",
+    "The bottom-right cell contains the length of the longest common subsequence."
+  ],
+  traps: [
+    "Subsequence vs Substring: A substring must be contiguous ('abc'), a subsequence does not ('ac'). LCS allows gaps.",
+    "It's easy to get an 'off-by-one' error when indexing into the strings vs the DP table (since the table has a 0-row/column).",
+    "The time and space complexity are both O(m*n)."
+  ],
+  pseudocodeExplanations: [
+    "Entry point for LCS.",
+    "Initialize a 2D array of size (m+1) x (n+1) with zeros.",
+    "Loop through the characters of the first string.",
+    "Loop through the characters of the second string.",
+    "If the characters match...",
+    "...the LCS length increases by 1 based on the diagonal.",
+    "If they don't match...",
+    "...take the maximum LCS found by excluding one character from either string.",
+    "The answer is in the bottom-right corner."
+  ],
   timeComplexity: 'O(m · n)',
   spaceComplexity: 'O(m · n)',
   stable: false,
